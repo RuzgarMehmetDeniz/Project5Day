@@ -1,12 +1,13 @@
-﻿namespace Project5Day.WebApi.Entities
+﻿namespace Project5Day.WebApi.Dtos
 {
-    public class Product
+    public class ResultProductDto
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int Stock { get; set; }
         public decimal Price { get; set; }
-        public int CategoryId { get; set; } 
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+
     }
 }
