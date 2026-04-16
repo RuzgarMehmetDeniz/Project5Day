@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+    @await Component.InvokeAsync("MatchDetailHeadComponentPartial")
+<body>
+
+    <!-- NAVBAR -->
+    @await Component.InvokeAsync("MatchIndexNavbarComponentPartial")
+
+    <!-- HERO -->
+    @await Component.InvokeAsync("MatchDetailHeroComponentPartial")
+
+    <!-- CONTENT -->
+    @await Component.InvokeAsync("MatchDetailContentComponentPartial")
+
+    <!-- FOOTER -->
+    @await Component.InvokeAsync("MatchIndexFooterComponentPartial")
+
+    @await Component.InvokeAsync("MatchDetailScriptComponentPartial")
+
+</body>
+</html>

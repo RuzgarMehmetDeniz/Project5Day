@@ -1,0 +1,65 @@
+﻿
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Mobile nav
+    const tog = document.getElementById('tog');
+    const mob = document.getElementById('mobMenu');
+    tog.addEventListener('click', () => {
+      mob.classList.toggle('open');
+      tog.innerHTML = mob.classList.contains('open')
+        ? '<i class="bi bi-x-lg"></i>' : '<i class="bi bi-list"></i>';
+    });
+
+    // Navbar shadow
+    window.addEventListener('scroll', () => {
+      document.querySelector('.nb').style.boxShadow =
+        window.scrollY > 8 ? '0 4px 32px rgba(0,0,0,.7)' : '0 2px 24px rgba(0,0,0,.5)';
+    });
+
+    // Notify toggle
+    function toggleNotify(btn) {
+      const isActive = btn.classList.contains('active');
+      if (isActive) {
+        btn.classList.remove('active');
+        btn.innerHTML = '<i class="bi bi-bell"></i> <span>Bildir</span>';
+      } else {
+        btn.classList.add('active');
+        btn.innerHTML = '<i class="bi bi-bell-fill"></i> <span>Bildirim Açık</span>';
+      }
+    }
+
+    // Countdown timer — counts down to 18 April 2025 20:00
+    function updateCountdown() {
+      const target = new Date('2025-04-18T20:00:00');
+      const now = new Date();
+      const diff = target - now;
+      if (diff <= 0) {
+        document.getElementById('cd-d').textContent = '00';
+        document.getElementById('cd-h').textContent = '00';
+        document.getElementById('cd-m').textContent = '00';
+        document.getElementById('cd-s').textContent = '00';
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+      document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+      document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+      document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Card animate in
+    document.querySelectorAll('.fx-card').forEach((c, i) => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(12px)';
+      setTimeout(() => {
+        c.style.transition = 'opacity .35s ease, transform .35s ease';
+        c.style.opacity = '1';
+        c.style.transform = 'translateY(0)';
+      }, 50 + i * 60);
+    });
+</script>

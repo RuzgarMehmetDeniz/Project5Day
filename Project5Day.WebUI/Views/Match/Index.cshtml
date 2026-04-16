@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+    @await Component.InvokeAsync("MatchIndexHeadComponentPartial")
+
+<body>
+    <!-- NAVBAR -->
+    @await Component.InvokeAsync("MatchIndexNavbarComponentPartial")
+
+    <!-- LEAGUE HEADER -->
+    @await Component.InvokeAsync("MatchIndexLowerNavbarComponentPartial")
+
+    <!-- FILTER TABS -->
+    @await Component.InvokeAsync("MatchIndexFilterComponentPartial")
+
+    <!-- MAIN -->
+    <main>
+        <div class="wrap" style="padding-top:28px;padding-bottom:56px">
+
+            <!-- FEATURED -->  
+            @await Component.InvokeAsync("MatchIndexFeaturedComponentPartial")
+
+            <!-- ════ LIVE ════ -->
+            @await Component.InvokeAsync("MatchIndexLiveComponentPartial")
+
+            <!-- ════ FINISHED ════ -->   
+            @await Component.InvokeAsync("MatchIndexFinishedComponentPartial")
+
+            <!-- ════ UPCOMING ════ -->
+            @await Component.InvokeAsync("MatchIndexUpcomingComponentPartial")
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    @await Component.InvokeAsync("MatchIndexFooterComponentPartial")
+
+    @await Component.InvokeAsync("MatchIndexScriptComponentPartial")
+
+</body>
+</html>

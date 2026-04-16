@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+        @await Component.InvokeAsync("MatchStandingsHeadComponentPartial")
+
+<body>
+
+    <!-- NAVBAR -->
+    @await Component.InvokeAsync("MatchIndexNavbarComponentPartial")
+
+    <!-- PAGE HEADER -->
+    @await Component.InvokeAsync("MatchStandingsPageHeaderComponentPartial")
+
+    <!-- MAIN -->
+    <main>
+        <div class="wrap">
+            <div class="tbl-wrap">
+
+                <!-- TOP STAT CARDS -->
+                @await Component.InvokeAsync("MatchStandingsTopStatCardsComponentPartial")
+
+                <!-- TABLE -->
+                @await Component.InvokeAsync("MatchStandingsTableComponentPartial")
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    @await Component.InvokeAsync("MatchIndexFooterComponentPartial")
+    @await Component.InvokeAsync("MatchStandingsScriptComponentPartial")
+
+
+</body>
+</html>
