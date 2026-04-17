@@ -7,33 +7,29 @@ namespace Project5Day.WebApi.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=NıTRO-AN515-57;initial Catalog=ApiDbProject5;TrustServerCertificate=True;Integrated Security=True");
+            optionsBuilder.UseSqlServer("Server=NıTRO-AN515-57;initial Catalog=ApiMatchDb;TrustServerCertificate=True;Integrated Security=True");
         }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        // Tablolarımızı tanımlıyoruz
         public DbSet<Team> Teams { get; set; }
         public DbSet<Match> Matches { get; set; }
-        public DbSet<MatchEvent> MatchEvents { get; set; }
-        public DbSet<Statistic> Statistics { get; set; }
-        public DbSet<FixtureHeader> FixtureHeaders { get; set; }
-
-        // --- İLİŞKİ YAPILANDIRMASI (FLUENT API) ---
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Stadium> Stadiums { get; set; }
+        public DbSet<MatchWeek> MatchWeeks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Ev sahibi maçları için silme kuralını kısıtla
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.HomeTeam)
                 .WithMany(t => t.HomeMatches)
                 .HasForeignKey(m => m.HomeTeamId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict); // Takım silinince maçlar silinmesin
 
+            // Misafir maçları için silme kuralını kısıtla
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.AwayTeam)
                 .WithMany(t => t.AwayMatches)
                 .HasForeignKey(m => m.AwayTeamId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }
