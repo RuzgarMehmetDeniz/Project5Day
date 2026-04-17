@@ -2,9 +2,9 @@
     <div class="wrap">
         <div class="ftabs">
             <button class="ftab active" data-f="all">Tüm Maçlar</button>
-            <button class="ftab" data-f="live"><span class="live-dot"></span>Canlı<span class="bcnt">3</span></button>
-            <button class="ftab" data-f="finished">Tamamlananlar</button>
-            <button class="ftab" data-f="upcoming">Yaklaşanlar</button>
+            <button class="ftab" data-f="live"><span class="live-dot"></span>Canlı<span class="bcnt">@ViewBag.LiveCount</span></button>
+            <button class="ftab" data-f="finished">Tamamlananlar<span class="bcnt">@ViewBag.FinishedCount</span></button>
+            <button class="ftab" data-f="upcoming">Yaklaşanlar<span class="bcnt">@ViewBag.UpcomingCount</span></button>
         </div>
     </div>
 </div>

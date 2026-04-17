@@ -36,7 +36,8 @@ namespace Project5Day.WebApi.Controllers
                     FinalScore = x.FinalScore,
                     MatchTime = x.MatchTime,
                     MatchDate = x.MatchDate,
-                    WeekNumber = x.WeekNumber
+                    WeekNumber = x.WeekNumber,
+                    MatchStatus = x.MatchStatus
                 }).ToListAsync();
 
             return Ok(values);
@@ -58,7 +59,8 @@ namespace Project5Day.WebApi.Controllers
                 SpectatorCount = createMatchDto.SpectatorCount,
                 HomeTeamId = createMatchDto.HomeTeamId,
                 AwayTeamId = createMatchDto.AwayTeamId,
-                StadiumId = createMatchDto.StadiumId
+                StadiumId = createMatchDto.StadiumId,
+                MatchStatus = createMatchDto.MatchStatus
             };
 
             await _context.Matches.AddAsync(match);
@@ -86,7 +88,8 @@ namespace Project5Day.WebApi.Controllers
                 SpectatorCount = value.SpectatorCount,
                 HomeTeamId = value.HomeTeamId,
                 AwayTeamId = value.AwayTeamId,
-                StadiumId = value.StadiumId
+                StadiumId = value.StadiumId,
+                MatchStatus = value.MatchStatus
             };
 
             return Ok(matchDto);
@@ -110,6 +113,7 @@ namespace Project5Day.WebApi.Controllers
             value.HomeTeamId = updateMatchDto.HomeTeamId;
             value.AwayTeamId = updateMatchDto.AwayTeamId;
             value.StadiumId = updateMatchDto.StadiumId;
+            value.MatchStatus = updateMatchDto.MatchStatus;
 
             await _context.SaveChangesAsync();
             return Ok("Maç bilgileri/skor güncellendi.");

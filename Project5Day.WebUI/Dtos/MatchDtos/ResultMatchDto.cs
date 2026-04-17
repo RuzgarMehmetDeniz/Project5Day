@@ -12,5 +12,7 @@
         public string MatchTime { get; set; }
         public DateTime MatchDate { get; set; }
         public int WeekNumber { get; set; }
+        public string MatchStatus { get; set; }
+
     }
 }

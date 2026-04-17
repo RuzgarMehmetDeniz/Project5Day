@@ -17,9 +17,10 @@
         // Detaylar
         public string RefereeName { get; set; }     // Örn: "John Doe"
         public int SpectatorCount { get; set; }  // Örn: "50,000"
+        public string MatchStatus { get; set; }  // 0: Upcoming, 1: Live, 2: Finished
 
         // Ev Sahibi Takım
-        public int HomeTeamId { get; set; }         
+        public int HomeTeamId { get; set; }
         public Team HomeTeam { get; set; }
 
         // Misafir Takım

@@ -14,5 +14,7 @@
         public int HomeTeamId { get; set; }
         public int AwayTeamId { get; set; }
         public int StadiumId { get; set; }
+        public string MatchStatus { get; set; }
+
     }
 }
