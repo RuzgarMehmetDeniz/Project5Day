@@ -36,12 +36,15 @@ namespace Project5Day.WebUI.ViewComponents.MatchIndexComponentPartial
                     .Where(x => x.WeekNumber == weekNum)
                     .ToListAsync();
 
+                ViewBag.TotalMatchCount = matches.Count;
+
                 ViewBag.LiveCount = matches.Count(x => x.MatchStatus == "Devam Ediyor");
                 ViewBag.FinishedCount = matches.Count(x => x.MatchStatus == "Bitti");
                 ViewBag.UpcomingCount = matches.Count(x => x.MatchStatus == "Gelecek");
             }
             else
             {
+                ViewBag.TotalMatchCount = 0; // Fallback kısmına da ekledik
                 // 🔴 fallback (boş kalmasın diye)
                 ViewBag.LiveCount = 0;
                 ViewBag.FinishedCount = 0;

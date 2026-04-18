@@ -1,148 +1,72 @@
-﻿<div class="day-group">
-    <div class="day-header">
-        <span class="day-title">Pazar</span>
-        <span class="day-date">20 Nisan 2025</span>
-        <div class="day-line"></div>
-        <span class="day-badge db-sun">4 Maç</span>
-    </div>
+﻿@model List<Project5Day.WebUI.Dtos.MatchDtos.ResultMatchDto>
 
-    <!-- Leicester vs Southampton -->
-    <div class="fx-card">
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">14:00</div>
-                <div class="fx-day-label" style="color:var(--live)">Küme Düşme</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home" style="color:rgba(244,67,54,.85)">Leicester City</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/2/2d/Leicester_City_crest.svg" alt="LEI" onerror="this.parentNode.textContent='LEI'" />
-                    </div>
-                </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/c/c9/FC_Southampton.svg" alt="SOU" onerror="this.parentNode.textContent='SOU'" />
-                    </div>
-                    <span class="fx-name" style="color:rgba(244,67,54,.85)">Southampton</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>King Power Stadium</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
+<div class="day-group">
+    @if (Model.Any())
+    {
+        <div class="day-header">
+            <span class="day-title">@Model.First().MatchDate.ToString("dddd")</span>
+            <span class="day-date">@Model.First().MatchDate.ToString("dd MMMM yyyy")</span>
+            <div class="day-line"></div>
+            <span class="day-badge db-sun">Hafta Kapanışı</span>
         </div>
-        <div class="h2h-strip">
-            <span class="h2h-label">Kritik Maç — Küme Düşmeme Savaşı</span>
-            <div class="h2h-pills">
-                <div class="h2h-p h2h-d">B</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-l">M</div>
-                <div class="h2h-p h2h-d">B</div>
-            </div>
-            <span class="h2h-avg" style="color:var(--live)">🔴 Kritik Derbi</span>
-        </div>
-    </div>
 
-    <!-- Fulham vs Everton -->
-    <div class="fx-card">
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">14:00</div>
-                <div class="fx-day-label">Pazar</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">Fulham</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/e/eb/Fulham_FC_%28shield%29.svg" alt="FUL" onerror="this.parentNode.textContent='FUL'" />
-                    </div>
-                </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/7/7c/Everton_FC_logo.svg" alt="EVE" onerror="this.parentNode.textContent='EVE'" />
-                    </div>
-                    <span class="fx-name">Everton</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>Craven Cottage</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
-        </div>
-    </div>
+        @foreach (var item in Model)
+        {
+            @* Pazartesi gününün ilk maçını Zirve Derbisi tasarımıyla gösteriyoruz *@
+            bool isTopMatch = (item == Model.First());
 
-    <!-- Nottm Forest vs Bournemouth -->
-    <div class="fx-card">
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">16:30</div>
-                <div class="fx-day-label">Pazar</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">Nottm Forest</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/e/e5/Nottingham_Forest_FC_logo.svg" alt="NFO" onerror="this.parentNode.textContent='NFO'" />
-                    </div>
-                </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/e/e5/AFC_Bournemouth_%282013%29.svg" alt="BOU" onerror="this.parentNode.textContent='BOU'" />
-                    </div>
-                    <span class="fx-name">Bournemouth</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>City Ground</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
-        </div>
-    </div>
+            <div class="fx-card @(isTopMatch ? "top-match" : "")">
+                @if (isTopMatch)
+                {
+                    @* Sarı rozet ve efektleri getiren kısım *@
+                    <div class="fx-top-badge"></div>
+                }
 
-    <!-- Crystal Palace vs Ipswich -->
-    <div class="fx-card">
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">19:00</div>
-                <div class="fx-day-label">Kapanış</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">Crystal Palace</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/a/a2/Crystal_Palace_FC_logo_%282022%29.svg" alt="CRY" onerror="this.parentNode.textContent='CRY'" />
-                    </div>
-                </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/4/43/Ipswich_Town.svg" alt="IPS" onerror="this.parentNode.textContent='IPS'" />
-                    </div>
-                    <span class="fx-name" style="color:rgba(244,67,54,.85)">Ipswich Town</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>Selhurst Park</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
-        </div>
-    </div>
+                <div class="fx-inner">
+                    <div class="fx-time-col">
+                        <div class="fx-time">@item.MatchTime</div>
 
+                        @if (isTopMatch)
+                        {
+                            @* Maç saatinin altındaki sarı TOP etiketi *@
+                            <div class="top-match-tag">★ TOP</div>
+                        }
+                        else
+                        {
+                            <div class="fx-day-label">Pazartesi</div>
+                        }
+                    </div>
+
+                    <div class="fx-divider"></div>
+
+                    <div class="fx-teams">
+                        <div class="fx-team-home">
+                            <span class="fx-name home">@item.HomeTeamName</span>
+                            <div class="fx-logo">
+                                <img src="@item.HomeTeamLogo" alt="home" onerror="this.parentNode.textContent='@item.HomeTeamName.Substring(0, 3)'" />
+                            </div>
+                        </div>
+                        <div class="vs-block">
+                            <span class="vs-text">VS</span>
+                        </div>
+                        <div class="fx-team-away">
+                            <div class="fx-logo">
+                                <img src="@item.AwayTeamLogo" alt="away" onerror="this.parentNode.textContent='@item.AwayTeamName.Substring(0, 3)'" />
+                            </div>
+                            <span class="fx-name">@item.AwayTeamName</span>
+                        </div>
+                    </div>
+
+                    <div class="fx-right">
+                        <span class="fx-stadium">
+                            <i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>@item.StadiumName
+                        </span>
+                        <button class="notify-btn" onclick="toggleNotify(this)">
+                            <i class="bi bi-bell"></i> <span>Bildir</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
 </div>

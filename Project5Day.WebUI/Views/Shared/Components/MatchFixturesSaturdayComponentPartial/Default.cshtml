@@ -1,228 +1,59 @@
-﻿<div class="day-group">
-    <div class="day-header">
-        <span class="day-title">Cumartesi</span>
-        <span class="day-date">19 Nisan 2025</span>
-        <div class="day-line"></div>
-        <span class="day-badge db-tomorrow">5 Maç</span>
-    </div>
+﻿@model List<Project5Day.WebUI.Dtos.MatchDtos.ResultMatchDto>
 
-    <!-- Liverpool vs Tottenham -->
-    <div class="fx-card top-match">
-        <div class="fx-top-badge"></div>
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">12:30</div>
-                <div class="fx-day-label">TV Maçı</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">Liverpool</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="LIV" onerror="this.parentNode.textContent='LIV'" />
-                    </div>
-                </div>
-                <div class="vs-block">
-                    <span class="vs-text">VS</span>
-                </div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/b/b4/Tottenham_Hotspur.svg" alt="TOT" onerror="this.parentNode.textContent='TOT'" />
-                    </div>
-                    <span class="fx-name">Tottenham</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>Anfield, Liverpool</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
+<div class="day-group">
+    @if (Model.Any())
+    {
+        <div class="day-header">
+            <span class="day-title">@Model.First().MatchDate.ToString("dddd")</span>
+            <span class="day-date">@Model.First().MatchDate.ToString("dd MMMM yyyy")</span>
+            <div class="day-line"></div>
+            <span class="day-badge db-tomorrow">@Model.Count Maç</span>
         </div>
-        <div class="h2h-strip">
-            <span class="h2h-label">Son 5 Karşılaşma</span>
-            <div class="h2h-pills">
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-d">B</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-l">M</div>
-            </div>
-            <span class="h2h-avg">Ort. 3.2 gol / maç</span>
-        </div>
-        <div class="kp-strip">
-            <span class="kp-label">İzlenecek Oyuncular</span>
-            <span class="kp-tag"><i class="bi bi-lightning-fill"></i>Mohamed Salah</span>
-            <span class="kp-tag"><i class="bi bi-lightning-fill"></i>Son Heung-min</span>
-        </div>
-    </div>
 
-    <!-- Aston Villa vs Newcastle -->
-    <div class="fx-card">
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">15:00</div>
-                <div class="fx-day-label">Cumartesi</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">Aston Villa</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/f/f9/Aston_Villa_FC_crest_%282016%29.svg" alt="AVL" onerror="this.parentNode.textContent='AVL'" />
-                    </div>
-                </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Newcastle_United_Logo.svg" alt="NEW" onerror="this.parentNode.textContent='NEW'" />
-                    </div>
-                    <span class="fx-name">Newcastle</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>Villa Park</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
-        </div>
-        <div class="h2h-strip">
-            <span class="h2h-label">Son 5 Karşılaşma</span>
-            <div class="h2h-pills">
-                <div class="h2h-p h2h-d">B</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-l">M</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-d">B</div>
-            </div>
-            <span class="h2h-avg">Ort. 2.4 gol / maç</span>
-        </div>
-    </div>
+        @foreach (var item in Model)
+        {
+            @* İkinci günün ilk maçını (MatchId 14) "Top Match" olarak vurguluyoruz *@
+            bool isTopMatch = (item == Model.First());
 
-    <!-- West Ham vs Brighton -->
-    <div class="fx-card">
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">15:00</div>
-                <div class="fx-day-label">Cumartesi</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">West Ham</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/c/c2/West_Ham_United_FC_logo.svg" alt="WHU" onerror="this.parentNode.textContent='WHU'" />
+            <div class="fx-card @(isTopMatch ? "top-match" : "")">
+                @if (isTopMatch)
+                {
+                    <div class="fx-top-badge"></div>
+                }
+                <div class="fx-inner">
+                    <div class="fx-time-col">
+                        <div class="fx-time">@item.MatchTime</div>
+                        @if (isTopMatch)
+                        {
+                            <div class="top-match-tag">★ TOP</div>
+                        }
+                    </div>
+                    <div class="fx-divider"></div>
+                    <div class="fx-teams">
+                        <div class="fx-team-home">
+                            <span class="fx-name home">@item.HomeTeamName</span>
+                            <div class="fx-logo">
+                                <img src="@item.HomeTeamLogo" alt="home" onerror="this.parentNode.textContent='@item.HomeTeamName.Substring(0, 3)'" />
+                            </div>
+                        </div>
+                        <div class="vs-block">
+                            <span class="vs-text">VS</span>
+                        </div>
+                        <div class="fx-team-away">
+                            <div class="fx-logo">
+                                <img src="@item.AwayTeamLogo" alt="away" onerror="this.parentNode.textContent='@item.AwayTeamName.Substring(0, 3)'" />
+                            </div>
+                            <span class="fx-name">@item.AwayTeamName</span>
+                        </div>
+                    </div>
+                    <div class="fx-right">
+                        <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>@item.StadiumName</span>
+                        <button class="notify-btn" onclick="toggleNotify(this)">
+                            <i class="bi bi-bell"></i> <span>Bildir</span>
+                        </button>
                     </div>
                 </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/f/fd/Brighton_%26_Hove_Albion_FC_logo.svg" alt="BHA" onerror="this.parentNode.textContent='BHA'" />
-                    </div>
-                    <span class="fx-name">Brighton</span>
-                </div>
             </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>London Stadium</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
-        </div>
-        <div class="h2h-strip">
-            <span class="h2h-label">Son 5 Karşılaşma</span>
-            <div class="h2h-pills">
-                <div class="h2h-p h2h-l">M</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-d">B</div>
-                <div class="h2h-p h2h-l">M</div>
-                <div class="h2h-p h2h-w">G</div>
-            </div>
-            <span class="h2h-avg">Ort. 2.6 gol / maç</span>
-        </div>
-    </div>
-
-    <!-- Brentford vs Wolves -->
-    <div class="fx-card">
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">15:00</div>
-                <div class="fx-day-label">Cumartesi</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">Brentford</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/2/2a/Brentford_FC_crest.svg" alt="BRE" onerror="this.parentNode.textContent='BRE'" />
-                    </div>
-                </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/f/fc/Wolverhampton_Wanderers.svg" alt="WOL" onerror="this.parentNode.textContent='WOL'" />
-                    </div>
-                    <span class="fx-name">Wolves</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>Gtech Community Stadium</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Arsenal vs Man Utd -->
-    <div class="fx-card top-match">
-        <div class="fx-top-badge"></div>
-        <div class="fx-inner">
-            <div class="fx-time-col">
-                <div class="fx-time">17:30</div>
-                <div class="top-match-tag">★ TOP</div>
-            </div>
-            <div class="fx-divider"></div>
-            <div class="fx-teams">
-                <div class="fx-team-home">
-                    <span class="fx-name home">Arsenal</span>
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" alt="ARS" onerror="this.parentNode.textContent='ARS'" />
-                    </div>
-                </div>
-                <div class="vs-block"><span class="vs-text">VS</span></div>
-                <div class="fx-team-away">
-                    <div class="fx-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" alt="MNU" onerror="this.parentNode.textContent='MNU'" />
-                    </div>
-                    <span class="fx-name">Manchester Utd</span>
-                </div>
-            </div>
-            <div class="fx-right">
-                <span class="fx-stadium"><i class="bi bi-geo-alt" style="font-size:10px;margin-right:3px"></i>Emirates Stadium</span>
-                <button class="notify-btn" onclick="toggleNotify(this)">
-                    <i class="bi bi-bell"></i> <span>Bildir</span>
-                </button>
-            </div>
-        </div>
-        <div class="h2h-strip">
-            <span class="h2h-label">Son 5 Karşılaşma</span>
-            <div class="h2h-pills">
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-l">M</div>
-                <div class="h2h-p h2h-w">G</div>
-                <div class="h2h-p h2h-d">B</div>
-            </div>
-            <span class="h2h-avg">Ort. 2.2 gol / maç</span>
-        </div>
-        <div class="kp-strip">
-            <span class="kp-label">İzlenecek Oyuncular</span>
-            <span class="kp-tag"><i class="bi bi-lightning-fill"></i>Bukayo Saka</span>
-            <span class="kp-tag"><i class="bi bi-lightning-fill"></i>Rasmus Højlund</span>
-            <span class="kp-tag"><i class="bi bi-lightning-fill"></i>Leandro Trossard</span>
-        </div>
-    </div>
-
+        }
+    }
 </div>

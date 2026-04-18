@@ -8,6 +8,8 @@
         public string HomeTeamLogo { get; set; }
         public string AwayTeamLogo { get; set; }
         public string StadiumName { get; set; }
+        public string FirstHalfScore { get; set; }
+        public string SecondHalfScore { get; set; }
         public string FinalScore { get; set; }
         public string MatchTime { get; set; }
         public DateTime MatchDate { get; set; }

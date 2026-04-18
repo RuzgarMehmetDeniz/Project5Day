@@ -1,91 +1,38 @@
-﻿<div class="sec-ttl mcw-section" data-s="finished" style="margin-top:22px">✅ &nbsp;Tamamlanan Maçlar</div>
+﻿@model List<Project5Day.WebUI.Dtos.MatchDtos.ResultMatchDto>
 
-<div class="mc-wrap mcw" data-s="finished">
-    <a href="match-detail.html" class="mc">
-        <div class="mc-time"><div class="mc-min">16:30</div><div class="sbadge sb-fin">MS</div></div>
-        <div class="dvv"></div>
-        <div class="mc-teams">
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" alt="ARS" onerror="this.parentNode.textContent='ARS'" /></div>
-                <span class="tn">Arsenal</span><span class="ts">2</span>
-            </div>
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="LIV" onerror="this.parentNode.textContent='LIV'" /></div>
-                <span class="tn">Liverpool</span><span class="ts">2</span>
-            </div>
-        </div>
-        <a href="match-detail.html" class="det-btn"><i class="bi bi-chevron-right"></i> <span>Detay</span></a>
-    </a>
-</div>
+<div class="sec-ttl mcw-section" data-s="finished" style="margin-top:22px">✅ &nbsp;Tamamlanan Maçlar</div>
 
-<div class="mc-wrap mcw" data-s="finished">
-    <a href="#" class="mc">
-        <div class="mc-time"><div class="mc-min">14:00</div><div class="sbadge sb-fin">MS</div></div>
-        <div class="dvv"></div>
-        <div class="mc-teams">
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" alt="MCI" onerror="this.parentNode.textContent='MCI'" /></div>
-                <span class="tn">Manchester City</span><span class="ts win">3</span>
-            </div>
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg" alt="CHE" onerror="this.parentNode.textContent='CHE'" /></div>
-                <span class="tn">Chelsea</span><span class="ts">1</span>
-            </div>
-        </div>
-        <a href="#" class="det-btn" onclick="return false"><i class="bi bi-chevron-right"></i> <span>Detay</span></a>
-    </a>
-</div>
+@foreach (var item in Model)
+{
+    // Skor "2-2" formatındaysa parçalara ayırıyoruz
+    var scoreParts = !string.IsNullOrEmpty(item.FinalScore) ? item.FinalScore.Split('-') : new string[] { "0", "0" };
+    var hScore = scoreParts[0];
+    var aScore = scoreParts.Length > 1 ? scoreParts[1] : "0";
 
-<div class="mc-wrap mcw" data-s="finished">
-    <a href="#" class="mc">
-        <div class="mc-time"><div class="mc-min">12:30</div><div class="sbadge sb-fin">MS</div></div>
-        <div class="dvv"></div>
-        <div class="mc-teams">
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/f/fc/Wolverhampton_Wanderers.svg" alt="WOL" onerror="this.parentNode.textContent='WOL'" /></div>
-                <span class="tn">Wolves</span><span class="ts win">2</span>
+    <div class="mc-wrap mcw" data-s="finished">
+        <div class="mc">
+            <div class="mc-time">
+                <div class="mc-min">@item.MatchTime</div>
+                <div class="sbadge sb-fin">MS</div>
             </div>
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/a/a2/Crystal_Palace_FC_logo_%282022%29.svg" alt="CRY" onerror="this.parentNode.textContent='CRY'" /></div>
-                <span class="tn">Crystal Palace</span><span class="ts">0</span>
+            <div class="dvv"></div>
+            <div class="mc-teams">
+                <div class="mc-tr">
+                    <div class="tl-sm">
+                        <img src="@item.HomeTeamLogo" alt="@item.HomeTeamName" onerror="this.parentNode.textContent='@item.HomeTeamName.Substring(0, 3).ToUpper()'" />
+                    </div>
+                    <span class="tn">@item.HomeTeamName</span>
+                    <span class="ts">@hScore</span>
+                </div>
+                <div class="mc-tr">
+                    <div class="tl-sm">
+                        <img src="@item.AwayTeamLogo" alt="@item.AwayTeamName" onerror="this.parentNode.textContent='@item.AwayTeamName.Substring(0, 3).ToUpper()'" />
+                    </div>
+                    <span class="tn">@item.AwayTeamName</span>
+                    <span class="ts">@aScore</span>
+                </div>
             </div>
+            <a href="/Match/Detail/@item.MatchId" class="det-btn"><i class="bi bi-chevron-right"></i> <span>Detay</span></a>
         </div>
-        <a href="#" class="det-btn" onclick="return false"><i class="bi bi-chevron-right"></i> <span>Detay</span></a>
-    </a>
-</div>
-
-<div class="mc-wrap mcw" data-s="finished">
-    <a href="#" class="mc">
-        <div class="mc-time"><div class="mc-min">15:00</div><div class="sbadge sb-fin">MS</div></div>
-        <div class="dvv"></div>
-        <div class="mc-teams">
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/2/2a/Brentford_FC_crest.svg" alt="BRE" onerror="this.parentNode.textContent='BRE'" /></div>
-                <span class="tn">Brentford</span><span class="ts">1</span>
-            </div>
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/2/2d/Leicester_City_crest.svg" alt="LEI" onerror="this.parentNode.textContent='LEI'" /></div>
-                <span class="tn">Leicester City</span><span class="ts win">3</span>
-            </div>
-        </div>
-        <a href="#" class="det-btn" onclick="return false"><i class="bi bi-chevron-right"></i> <span>Detay</span></a>
-    </a>
-</div>
-
-<div class="mc-wrap mcw" data-s="finished">
-    <a href="#" class="mc">
-        <div class="mc-time"><div class="mc-min">20:45</div><div class="sbadge sb-fin">MS</div></div>
-        <div class="dvv"></div>
-        <div class="mc-teams">
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/c/c2/West_Ham_United_FC_logo.svg" alt="WHU" onerror="this.parentNode.textContent='WHU'" /></div>
-                <span class="tn">West Ham</span><span class="ts">1</span>
-            </div>
-            <div class="mc-tr">
-                <div class="tl-sm"><img src="https://upload.wikimedia.org/wikipedia/en/7/7c/Everton_FC_logo.svg" alt="EVE" onerror="this.parentNode.textContent='EVE'" /></div>
-                <span class="tn">Everton</span><span class="ts win">2</span>
-            </div>
-        </div>
-        <a href="#" class="det-btn" onclick="return false"><i class="bi bi-chevron-right"></i> <span>Detay</span></a>
-    </a>
-</div>
+    </div>
+}
