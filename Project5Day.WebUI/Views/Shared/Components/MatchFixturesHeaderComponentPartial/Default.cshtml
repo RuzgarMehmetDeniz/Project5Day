@@ -1,36 +1,26 @@
 ﻿@model List<Project5Day.WebUI.Dtos.MatchWeekDtos.ResultMatchWeekDto>
 
 @{
-    // Mevcut haftayı modelden buluyoruz
     var currentWeekNum = ViewBag.CurrentWeekNum;
     var item = Model.FirstOrDefault(x => x.WeekNumber.Contains(currentWeekNum.ToString()));
 }
 
-@if (item != null)
-{
-    <section class="pg-head">
+
+    @if (item != null)
+    {
+        <section class="pg-head">
         <div class="wrap">
             <div class="row align-items-end">
                 <div class="col-lg-7">
                     <div class="pg-badge"><i class="bi bi-trophy-fill"></i> @item.LeagueName</div>
-
-                    <h1 class="pg-title">
-                        Hafta <span style="color:var(--blue)">@currentWeekNum</span> Fikstürü
-                    </h1>
-
-                    <p class="pg-sub">
-                        @item.StartDate.ToString("dd MMMM") – @item.EndDate.ToString("dd MMMM") &nbsp;·&nbsp; @ViewBag.TotalMatchCount Maç
-                    </p>
+                    <h1 class="pg-title">Hafta <span style="color:var(--blue)">@currentWeekNum</span> Fikstürü</h1>
+                    <p class="pg-sub">@item.StartDate.ToString("dd MMMM") – @item.EndDate.ToString("dd MMMM") &nbsp;·&nbsp; @ViewBag.TotalMatchCount Maç</p>
 
                     <div class="week-nav">
-                        @* Dinamik Geri Butonu *@
                         <a href="/Match/Index?week=@ViewBag.PrevWeek" class="wn-btn @(ViewBag.PrevWeek < 34 ? "disabled" : "")">
                             <i class="bi bi-chevron-left"></i> <span>Hafta @ViewBag.PrevWeek</span>
                         </a>
-
                         <div class="wn-cur">@item.WeekNumber</div>
-
-                        @* Dinamik İleri Butonu *@
                         <a href="/Match/Index?week=@ViewBag.NextWeek" class="wn-btn @(ViewBag.NextWeek > 38 ? "disabled" : "")">
                             <span>Hafta @ViewBag.NextWeek</span> <i class="bi bi-chevron-right"></i>
                         </a>
@@ -39,14 +29,14 @@
 
                 <div class="col-lg-5 mt-3 mt-lg-0">
                     <div class="countdown-strip">
-                        <span class="cd-label">İlk Maça</span>
-                        <div class="cd-box"><div class="cd-num" id="cd-d">0</div><div class="cd-unit">Gün</div></div>
+                        <span class="cd-label">İLK MAÇA</span>
+                        <div class="cd-box"><div class="cd-num" id="cd-d">00</div><div class="cd-unit">GÜN</div></div>
                         <span class="cd-sep">:</span>
-                        <div class="cd-box"><div class="cd-num" id="cd-h">0</div><div class="cd-unit">Saat</div></div>
+                        <div class="cd-box"><div class="cd-num" id="cd-h">00</div><div class="cd-unit">SAAT</div></div>
                         <span class="cd-sep">:</span>
-                        <div class="cd-box"><div class="cd-num" id="cd-m">0</div><div class="cd-unit">Dakika</div></div>
+                        <div class="cd-box"><div class="cd-num" id="cd-m">00</div><div class="cd-unit">DAK</div></div>
                         <span class="cd-sep">:</span>
-                        <div class="cd-box"><div class="cd-num" id="cd-s">0</div><div class="cd-unit">Saniye</div></div>
+                        <div class="cd-box"><div class="cd-num" id="cd-s">00</div><div class="cd-unit">SN</div></div>
                     </div>
                 </div>
             </div>
@@ -54,23 +44,45 @@
     </section>
 }
 
-@* Countdown JavaScript *@
 <script>
-    var countDownDate = new Date("@ViewBag.FirstMatchDate").getTime();
+    document.addEventListener("DOMContentLoaded", function() {
+        const targetDateStr = "@ViewBag.FirstMatchDate";
+        console.log("Gelen Tarih Verisi:", targetDateStr); // Eğer burası boşsa veritabanından veri gelmiyordur.
 
-    var x = setInterval(function() {
-        var now = new Date().getTime();
-        var distance = countDownDate - now;
+        if (!targetDateStr) return;
 
-        if (distance < 0) {
-            clearInterval(x);
-            document.querySelector(".countdown-strip").innerHTML = "Hafta Başladı!";
-            return;
-        }
+        const countDownDate = new Date(targetDateStr).getTime();
 
-        document.getElementById("cd-d").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
-        document.getElementById("cd-h").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        document.getElementById("cd-m").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        document.getElementById("cd-s").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
-    }, 1000);
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("cd-d").innerText = "00";
+                document.getElementById("cd-h").innerText = "00";
+                document.getElementById("cd-m").innerText = "00";
+                document.getElementById("cd-s").innerText = "00";
+                console.log("Süre doldu veya maç başladı.");
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Elementleri güncelle
+            const dEl = document.getElementById("cd-d");
+            const hEl = document.getElementById("cd-h");
+            const mEl = document.getElementById("cd-m");
+            const sEl = document.getElementById("cd-s");
+
+            if(dEl) dEl.innerText = days.toString().padStart(2, '0');
+            if(hEl) hEl.innerText = hours.toString().padStart(2, '0');
+            if(mEl) mEl.innerText = minutes.toString().padStart(2, '0');
+            if(sEl) sEl.innerText = seconds.toString().padStart(2, '0');
+
+        }, 1000);
+    });
 </script>

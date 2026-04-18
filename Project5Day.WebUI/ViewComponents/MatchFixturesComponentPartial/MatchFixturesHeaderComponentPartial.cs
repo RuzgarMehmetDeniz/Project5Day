@@ -16,21 +16,28 @@ namespace Project5Day.WebUI.ViewComponents.MatchFixturesComponentPartial
 
         public async Task<IViewComponentResult> InvokeAsync(int week = 36)
         {
-            // 1. Veritabanından ham verileri çek (Entity tipinde)
             var weeksEntity = await _context.MatchWeeks.ToListAsync();
-
-            // 2. ŞU ANKİ HAFTA İŞLEMLERİ (Count ve Countdown)
             var currentWeek = weeksEntity.FirstOrDefault(x => x.WeekNumber.Contains(week.ToString()));
+
             if (currentWeek != null)
             {
                 var matches = await _context.Matches.Where(x => x.WeekNumber == week).ToListAsync();
                 ViewBag.TotalMatchCount = matches.Count;
 
+                // Tarihe göre sıralayıp en erken maçı alıyoruz
                 var firstMatch = matches.OrderBy(x => x.MatchDate).ThenBy(x => x.MatchTime).FirstOrDefault();
+
                 if (firstMatch != null)
                 {
-                    ViewBag.FirstMatchDate = firstMatch.MatchDate.ToString("yyyy-MM-dd") + "T" +
-                                            (firstMatch.MatchTime.Contains(":") ? firstMatch.MatchTime : "00:00");
+                    // Format: 2026-05-02
+                    string formattedDate = firstMatch.MatchDate.ToString("yyyy-MM-dd");
+
+                    // Format: 15:30 (Noktayı iki noktaya çeviriyoruz)
+                    string formattedTime = firstMatch.MatchTime.Replace(".", ":");
+                    if (formattedTime.Length == 5) formattedTime += ":00"; // Saniye ekle
+
+                    // Sonuç: 2026-05-02T15:30:00
+                    ViewBag.FirstMatchDate = $"{formattedDate}T{formattedTime}";
                 }
 
                 ViewBag.PrevWeek = week - 1;
@@ -38,7 +45,6 @@ namespace Project5Day.WebUI.ViewComponents.MatchFixturesComponentPartial
                 ViewBag.CurrentWeekNum = week;
             }
 
-            // 🔥 KRİTİK NOKTA: Entity listesini DTO listesine dönüştür (Mapping)
             var values = weeksEntity.Select(x => new ResultMatchWeekDto
             {
                 MatchWeekId = x.MatchWeekId,
@@ -49,7 +55,6 @@ namespace Project5Day.WebUI.ViewComponents.MatchFixturesComponentPartial
                 LeagueIcon = x.LeagueIcon
             }).ToList();
 
-            // Artık View'a ResultMatchWeekDto listesi gidiyor, hata düzelecek.
             return View(values);
         }
     }
