@@ -30,5 +30,8 @@
         // Stadyum
         public int StadiumId { get; set; }
         public Stadium Stadium { get; set; }
+
+        public List<MatchEvent> MatchEvents { get; set; }
+        public MatchStatistic MatchStatistic { get; set; }
     }
 }

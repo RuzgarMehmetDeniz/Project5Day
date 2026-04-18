@@ -15,21 +15,34 @@ namespace Project5Day.WebApi.Context
         public DbSet<Player> Players { get; set; }
         public DbSet<Stadium> Stadiums { get; set; }
         public DbSet<MatchWeek> MatchWeeks { get; set; }
+        public DbSet<MatchStatistic> MatchStatistics { get; set; }
+        public DbSet<MatchEvent> MatchEvents { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Ev sahibi maçları için silme kuralını kısıtla
+            // 1. Ev Sahibi ve Misafir Takım İlişkisi (Kısıtlamalı Silme)
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.HomeTeam)
                 .WithMany(t => t.HomeMatches)
                 .HasForeignKey(m => m.HomeTeamId)
-                .OnDelete(DeleteBehavior.Restrict); // Takım silinince maçlar silinmesin
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Misafir maçları için silme kuralını kısıtla
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.AwayTeam)
                 .WithMany(t => t.AwayMatches)
                 .HasForeignKey(m => m.AwayTeamId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // 2. Maç ve İstatistik İlişkisi (Bire-Bir)
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.MatchStatistic)
+                .WithOne(s => s.Match)
+                .HasForeignKey<MatchStatistic>(s => s.MatchId);
+
+            // 3. Maç ve Olaylar İlişkisi (Bire-Çok)
+            modelBuilder.Entity<MatchEvent>()
+                .HasOne(me => me.Match)
+                .WithMany(m => m.MatchEvents)
+                .HasForeignKey(me => me.MatchId);
         }
     }
 }

@@ -1,36 +1,53 @@
-﻿<section class="hero">
-    <div class="wrap">
-        <div class="hero-badges">
-            <span class="hbadge hb-gold"><i class="bi bi-trophy-fill me-1"></i>Premier League · Hafta 33</span>
-            <span class="hbadge hb-gray"><i class="bi bi-check2-circle me-1"></i>Maç Sona Erdi</span>
-            <span class="hbadge hb-green"><i class="bi bi-people-fill me-1"></i>60,260 Seyirci</span>
-        </div>
-        <div class="hero-grid">
-            <div class="h-team">
-                <div class="h-logo" style="border-color:rgba(239,1,7,.5);box-shadow:0 0 28px rgba(239,1,7,.1)">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" alt="ARS" onerror="this.parentNode.textContent='ARS'" />
-                </div>
-                <div class="h-name">Arsenal</div>
-                <div class="h-type">Ev Sahibi</div>
-            </div>
-            <div class="h-score-c">
-                <div class="h-sc">2–2</div>
-                <div class="h-ht"><i class="bi bi-hourglass-split me-1"></i>İY: 1–1</div>
-                <div class="h-ft">Maç Bitti</div>
-            </div>
-            <div class="h-team">
-                <div class="h-logo" style="border-color:rgba(200,16,46,.5);box-shadow:0 0 28px rgba(200,16,46,.1)">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="LIV" onerror="this.parentNode.textContent='LIV'" />
-                </div>
-                <div class="h-name">Liverpool</div>
-                <div class="h-type">Deplasman</div>
-            </div>
-        </div>
-        <div class="info-strip">
-            <div class="istrip"><i class="bi bi-geo-alt-fill"></i><span>Emirates Stadium, Londra</span></div>
-            <div class="istrip"><i class="bi bi-calendar3"></i><span>12 Nisan 2025</span></div>
-            <div class="istrip"><i class="bi bi-clock"></i><span>16:30</span></div>
-            <div class="istrip"><i class="bi bi-person-badge"></i><span>Michael Oliver</span></div>
-        </div>
+﻿@model Project5Day.WebUI.Dtos.MatchDtos.ResultMatchDetailDto
+
+<div class="hero-badges">
+    @* MatchWeek'ten gelen Lig İsmi ve Hafta *@
+    <span class="hbadge hb-gold">
+        <i class="bi bi-trophy-fill"></i> @Model.LeagueName - HAFTA @Model.WeekNumber
+    </span>
+
+    <span class="hbadge hb-gray">
+        <i class="bi bi-check2-circle me-1"></i>
+        MAÇ SONA ERDİ
+    </span>
+
+    <span class="hbadge hb-green">
+        <i class="bi bi-people-fill me-1"></i> @Model.SpectatorCount.ToString("N0") SEYİRCİ
+    </span>
+</div>
+
+<div class="hero-grid">
+    @* Ev Sahibi *@
+    <div class="h-team">
+        <div class="h-logo"><img src="@Model.HomeTeamLogo" /></div>
+        <div class="h-name">@Model.HomeTeamName</div>
+        <div class="h-type">EV SAHİBİ</div>
     </div>
-</section>
+
+    @* Skor ve Maç Bilgisi *@
+    <div class="h-score-c" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+        @* Skor rakamlarının kendi içindeki boşluğu için *@
+        <div class="h-sc" style="letter-spacing: 10px; margin-bottom: 5px;">@Model.FinalScore</div>
+
+        <div class="h-ht">
+            <span class="hbadge hb-score-small">İY: @Model.FirstHalfScore</span>
+        </div>
+
+        <div class="h-ft" style="margin-top: 5px; opacity: 0.8;">MAÇ BİTTİ</div>
+    </div>
+
+    @* Deplasman *@
+    <div class="h-team">
+        <div class="h-logo"><img src="@Model.AwayTeamLogo" /></div>
+        <div class="h-name">@Model.AwayTeamName</div>
+        <div class="h-type">DEPLASMAN</div>
+    </div>
+</div>
+
+@* Alt Şerit: Stadyum, Tarih, Saat, Hakem *@
+<div class="info-strip">
+    <div class="istrip"><i class="bi bi-geo-alt-fill"></i> @Model.StadiumName, @Model.StadiumCity</div>
+    <div class="istrip"><i class="bi bi-calendar3"></i> @Model.MatchDate.ToString("dd MMMM yyyy")</div>
+    <div class="istrip"><i class="bi bi-clock"></i> @Model.MatchTime</div>
+    <div class="istrip"><i class="bi bi-person-badge"></i> @Model.RefereeName</div>
+</div>

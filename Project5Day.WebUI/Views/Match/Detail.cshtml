@@ -1,6 +1,11 @@
-﻿
-@{
+﻿@{
     Layout = null;
+    // URL'den ID'yi güvenli bir şekilde alıp int'e çeviriyoruz
+    int id = 0;
+    if (ViewContext.RouteData.Values["id"] != null)
+    {
+        int.TryParse(ViewContext.RouteData.Values["id"].ToString(), out id);
+    }
 }
 
 <!DOCTYPE html>
@@ -8,16 +13,12 @@
     @await Component.InvokeAsync("MatchDetailHeadComponentPartial")
 <body>
 
-    <!-- NAVBAR -->
     @await Component.InvokeAsync("MatchIndexNavbarComponentPartial")
+    <br />
+    @await Component.InvokeAsync("MatchDetailHeroComponentPartial", new { id = id })
 
-    <!-- HERO -->
-    @await Component.InvokeAsync("MatchDetailHeroComponentPartial")
+    @await Component.InvokeAsync("MatchDetailContentComponentPartial", new { id = id })
 
-    <!-- CONTENT -->
-    @await Component.InvokeAsync("MatchDetailContentComponentPartial")
-
-    <!-- FOOTER -->
     @await Component.InvokeAsync("MatchIndexFooterComponentPartial")
 
     @await Component.InvokeAsync("MatchDetailScriptComponentPartial")

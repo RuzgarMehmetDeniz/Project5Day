@@ -1,9 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project5Day.WebApi.Context;
 
 namespace Project5Day.WebUI.Controllers
 {
     public class MatchController : Controller
     {
+        private readonly ApiContext _context;
+
+        public MatchController(ApiContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -12,7 +20,7 @@ namespace Project5Day.WebUI.Controllers
         {
             return View();
         }
-        public IActionResult Detail()
+        public async Task<IActionResult> Detail(int id)
         {
             return View();
         }
