@@ -1,22 +1,56 @@
-﻿<div class="top-stats">
+﻿@model Project5Day.WebApi.Entities.Match
+
+<div class="top-stats">
+    @* 1. KART: LİDER TAKIM *@
     <div class="ts-card">
         <div class="ts-label">Lider Takım</div>
-        <div class="ts-val" style="color:var(--gold)">LIV</div>
-        <div class="ts-team">Liverpool · 79 puan</div>
+        <div class="ts-val" style="color:var(--gold)">
+            @(ViewBag.LeaderShort ?? "---")
+        </div>
+        <div class="ts-team">
+            @(ViewBag.LeaderName ?? "Belirlenmedi") · @(ViewBag.LeaderPoints ?? 0) Puan
+        </div>
     </div>
+
+    @* 2. KART: EN ÇOK GOL *@
     <div class="ts-card">
         <div class="ts-label">En Çok Gol</div>
-        <div class="ts-val" style="color:var(--green)">82</div>
-        <div class="ts-team">Manchester City</div>
+        <div class="ts-val" style="color:var(--green)">
+            @(ViewBag.MaxGoals ?? 0)
+        </div>
+        <div class="ts-team">
+            @(ViewBag.TopScorerName ?? "Belirlenmedi")
+        </div>
     </div>
+
+    @* 3. KART: EN AZ YENİLEN *@
     <div class="ts-card">
         <div class="ts-label">En Az Yenilen</div>
-        <div class="ts-val" style="color:var(--blue)">26</div>
-        <div class="ts-team">Arsenal</div>
+        <div class="ts-val" style="color:var(--blue)">
+            @(ViewBag.MinConceded ?? 0)
+        </div>
+        <div class="ts-team">
+            @(ViewBag.BestDefenseName ?? "Belirlenmedi")
+        </div>
     </div>
+
+    @* 4. KART: HAFTANIN MAÇI *@
     <div class="ts-card">
         <div class="ts-label">Haftanın Maçı</div>
-        <div class="ts-val" style="color:var(--t1);font-size:16px;margin-top:2px">ARS 2–2 LIV</div>
-        <div class="ts-team">Emirates Stadium</div>
+        @if (Model != null && Model.HomeTeam != null && Model.AwayTeam != null)
+        {
+            var homeShort = Model.HomeTeam.Name.Length >= 3 ? Model.HomeTeam.Name.Substring(0, 3).ToUpper() : Model.HomeTeam.Name.ToUpper();
+            var awayShort = Model.AwayTeam.Name.Length >= 3 ? Model.AwayTeam.Name.Substring(0, 3).ToUpper() : Model.AwayTeam.Name.ToUpper();
+
+            <div class="ts-val" style="color:var(--t1);font-size:16px;margin-top:2px">
+                @homeShort @(Model.FinalScore ?? "vs") @awayShort
+            </div>
+            <div class="ts-team">@(Model.Stadium?.Name ?? "Stadyum Bilgisi Yok")</div>
+        }
+        else
+        {
+            <div class="ts-val" style="color:var(--t1);font-size:16px;margin-top:2px">Maç Bulunamadı</div>
+            <div class="ts-team">36. Hafta</div>
+        }
     </div>
 </div>

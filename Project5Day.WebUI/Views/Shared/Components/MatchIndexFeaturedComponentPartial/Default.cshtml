@@ -1,38 +1,49 @@
-﻿
-<div class="feat-wrap" id="featWrap">
-    <div class="feat-lbl">Öne Çıkan Maç</div>
-    <a href="match-detail.html" class="feat-card">
-        <div class="row align-items-center g-2">
-            <div class="col-5">
-                <div class="ft-team">
-                    <div class="ft-logo" style="border-color:rgba(239,1,7,.4)">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" alt="ARS" onerror="this.parentNode.textContent='ARS'" />
+﻿@model Project5Day.WebApi.Entities.Match
+
+@if (Model != null)
+{
+    <div class="feat-wrap" id="featWrap">
+        <div class="feat-lbl">Haftanın Öne Çıkan Maçı</div>
+
+        @* Detay sayfasına yönlendiren link yapısı *@
+        <a asp-controller="Match" asp-action="Detail" asp-route-id="@Model.MatchId" class="feat-card">
+            <div class="row align-items-center g-2">
+                <div class="col-5">
+                    <div class="ft-team">
+                        <div class="ft-logo">
+                            <img src="@Model.HomeTeam.Logo" alt="@Model.HomeTeam.Name" onerror="this.parentNode.textContent='@Model.HomeTeam.Name.Substring(0, 3)'" />
+                        </div>
+                        <div class="ft-name">@Model.HomeTeam.Name</div>
+                        <div class="ft-type">Ev Sahibi</div>
                     </div>
-                    <div class="ft-name">Arsenal</div>
-                    <div class="ft-type">Ev Sahibi</div>
                 </div>
-            </div>
-            <div class="col-2 text-center">
-                <div class="ft-sc-area">
-                    <div class="ft-sc">2–2</div>
-                    <div class="ft-stat"><i class="bi bi-check2-circle"></i> MAÇ BİTTİ</div>
-                    <div class="ft-meta">İY: 1–1 &nbsp;·&nbsp; 16:30</div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="ft-team">
-                    <div class="ft-logo" style="border-color:rgba(200,16,46,.4)">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" alt="LIV" onerror="this.parentNode.textContent='LIV'" />
+
+                <div class="col-2 text-center">
+                    <div class="ft-sc-area">
+                        <div class="ft-sc">@Model.FinalScore</div>
+                        <div class="ft-stat">
+                            <i class="bi bi-check2-circle"></i> @Model.MatchStatus.ToUpper()
+                        </div>
+                        <div class="ft-meta">İY: @Model.FirstHalfScore &nbsp;·&nbsp; @Model.MatchTime</div>
                     </div>
-                    <div class="ft-name">Liverpool</div>
-                    <div class="ft-type">Deplasman</div>
+                </div>
+
+                <div class="col-5">
+                    <div class="ft-team">
+                        <div class="ft-logo">
+                            <img src="@Model.AwayTeam.Logo" alt="@Model.AwayTeam.Name" onerror="this.parentNode.textContent='@Model.AwayTeam.Name.Substring(0, 3)'" />
+                        </div>
+                        <div class="ft-name">@Model.AwayTeam.Name</div>
+                        <div class="ft-type">Deplasman</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="text-center mt-3" style="font-size:12px;color:var(--t2)">
-            <i class="bi bi-geo-alt"></i> Emirates Stadium &nbsp;·&nbsp;
-            <i class="bi bi-calendar3"></i> 12 Nisan 2025 &nbsp;·&nbsp;
-            <span style="color:var(--blue)">Detayları Gör →</span>
-        </div>
-    </a>
-</div>
+
+            <div class="text-center mt-3" style="font-size:12px;color:var(--t2)">
+                <i class="bi bi-geo-alt"></i> @Model.Stadium.Name &nbsp;·&nbsp;
+                <i class="bi bi-calendar3"></i> @Model.MatchDate.ToString("dd MMMM yyyy") &nbsp;·&nbsp;
+                <span style="color:var(--blue); font-weight:600">Detayları Gör →</span>
+            </div>
+        </a>
+    </div>
+}
