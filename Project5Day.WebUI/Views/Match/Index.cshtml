@@ -1,5 +1,5 @@
-﻿@{
-    Layout = null;
+﻿﻿@{
+Layout = null;
 }
 
 <!DOCTYPE html>
@@ -20,13 +20,13 @@
     <main>
         <div class="wrap" style="padding-top:28px;padding-bottom:56px">
 
-            <!-- FEATURED -->  
+            <!-- FEATURED -->
             @await Component.InvokeAsync("MatchIndexFeaturedComponentPartial")
 
             <!-- ════ LIVE ════ -->
             @await Component.InvokeAsync("MatchIndexLiveComponentPartial")
 
-            <!-- ════ FINISHED ════ -->   
+            <!-- ════ FINISHED ════ -->
             @await Component.InvokeAsync("MatchIndexFinishedComponentPartial")
 
             <!-- ════ UPCOMING ════ -->

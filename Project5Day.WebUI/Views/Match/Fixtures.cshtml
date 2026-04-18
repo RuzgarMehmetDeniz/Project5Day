@@ -1,44 +1,44 @@
-﻿
-@{
-    Layout = null;
-}
+﻿﻿
+	@{
+		Layout = null;
+	}
 
-<!DOCTYPE html>
-<html lang="tr">
-    @await Component.InvokeAsync("MatchFixturesHeadComponentPartial")
-<body>
+	<!DOCTYPE html>
+	<html lang="tr">
+	        @await Component.InvokeAsync("MatchFixturesHeadComponentPartial")
+	<body>
 
-    <!-- NAVBAR -->
-    @await Component.InvokeAsync("MatchIndexNavbarComponentPartial")
+		<!-- NAVBAR -->
+		@await Component.InvokeAsync("MatchIndexNavbarComponentPartial")
 
-    <!-- PAGE HEADER -->
-    @await Component.InvokeAsync("MatchFixturesHeaderComponentPartial")
+		<!-- PAGE HEADER -->
+		@await Component.InvokeAsync("MatchFixturesHeaderComponentPartial")
 
-    <!-- MAIN -->
-    <main>
-        <div class="wrap">
-            <div class="content">
+		<!-- MAIN -->
+		<main>
+			<div class="wrap">
+				<div class="content">
 
-                <!-- WEEK SUMMARY -->
-                @await Component.InvokeAsync("MatchFixturesSummaryComponentPartial")
+					<!-- WEEK SUMMARY -->
+					@await Component.InvokeAsync("MatchFixturesSummaryComponentPartial")
 
-                <!-- ═══════════════ FRIDAY ═══════════════ -->
-                @await Component.InvokeAsync("MatchFixturesFridayComponentPartial")
+					<!-- ═══════════════ FRIDAY ═══════════════ -->
+					@await Component.InvokeAsync("MatchFixturesFridayComponentPartial")
 
-                <!-- ═══════════════ SATURDAY ═══════════════ -->
-                @await Component.InvokeAsync("MatchFixturesSaturdayComponentPartial")
+					<!-- ═══════════════ SATURDAY ═══════════════ -->
+					@await Component.InvokeAsync("MatchFixturesSaturdayComponentPartial")
 
-                <!-- ═══════════════ SUNDAY ═══════════════ -->
-                @await Component.InvokeAsync("MatchFixturesSundayComponentPartial")
+					<!-- ═══════════════ SUNDAY ═══════════════ -->
+					@await Component.InvokeAsync("MatchFixturesSundayComponentPartial")
 
-            </div>
-        </div>
-    </main>
+				</div>
+			</div>
+		</main>
 
-    <!-- FOOTER -->
-    @await Component.InvokeAsync("MatchIndexFooterComponentPartial")
+		<!-- FOOTER -->
+		@await Component.InvokeAsync("MatchIndexFooterComponentPartial")
 
-    @await Component.InvokeAsync("MatchFixturesScriptComponentPartial")
+		@await Component.InvokeAsync("MatchFixturesScriptComponentPartial")
 
-</body>
-</html>
+	</body>
+	</html>
