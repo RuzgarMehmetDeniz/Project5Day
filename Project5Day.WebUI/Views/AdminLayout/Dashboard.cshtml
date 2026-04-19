@@ -22,10 +22,23 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <div class="content">
-                @RenderBody()
-            </div>
+            <!-- ===== DASHBOARD PAGE ===== -->
+            <div class="page active" id="page-dashboard">
+                @await Component.InvokeAsync("AdminLayoutDashboardPageHeaderComponentPartial")
 
+                <!-- Stat Cards -->
+                @await Component.InvokeAsync("AdminLayoutDashboardStatCardsComponentPartial")
+
+                <!-- Charts + Recent Matches -->
+                @await Component.InvokeAsync("AdminLayoutDashboardChartsRecentMatchesComponentPartial")
+
+                <!-- Standings + Top Scorers -->
+                @await Component.InvokeAsync("AdminLayoutDashboardStandingsTopScorersComponentPartial")
+
+                <!-- Win/Draw/Loss Chart -->
+                @await Component.InvokeAsync("AdminLayoutDashboardWinDrawLossChartComponentPartial")
+
+            </div>
         </div>
     </div>
 
@@ -170,5 +183,6 @@
           }
         });
     </script>
+
 </body>
 </html>

@@ -1,0 +1,179 @@
+﻿@model Project5Day.WebUI.Dtos.TeamDtos.CreateTeamDto
+
+@{
+    ViewData["Title"] = "Yeni Takım Ekle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="margin-bottom: 1.5rem; padding: 0 5px;">
+    <div style="border-left: 4px solid #1a7a3f; padding-left: 12px;">
+        <h3 style="color: #1a7a3f; font-weight: 800; margin: 0; text-transform: uppercase; font-size: 1.2rem;">Yeni Takım Kaydı</h3>
+        <p style="color: #777; font-size: 0.8rem; margin: 0;">Sisteme yeni bir kulüp dahil edin.</p>
+    </div>
+</div>
+
+<div class="card-modern-compact" style="max-width: 600px; margin: 0 auto;">
+    <form method="post" class="modern-form">
+        <div class="form-group-custom">
+            <label><i class="fas fa-shield-alt"></i> Takım Adı</label>
+            <input type="text" asp-for="Name" class="form-control-modern" placeholder="Örn: Liverpool FC" required />
+        </div>
+
+        <div class="form-group-custom">
+            <label><i class="fas fa-image"></i> Logo URL</label>
+            <input type="text" asp-for="Logo" id="logoInput" class="form-control-modern" placeholder="https://image-url.com/logo.png" required />
+            <small style="color: #a1a5b7; font-size: 0.75rem; display: block; mt-1;">Logonun önizlemesi aşağıda görünecektir.</small>
+        </div>
+
+        <div class="preview-container">
+            <p>Logo Önizleme</p>
+            <div class="logo-preview-box">
+                <img id="logoPreview" src="https://via.placeholder.com/100?text=Logo" alt="Önizleme" />
+            </div>
+        </div>
+
+        <div class="form-actions-pill">
+            <button type="submit" class="btn-pill-submit">
+                <i class="fas fa-save"></i> Takımı Kaydet
+            </button>
+            <a href="/AdminTeam/Index" class="btn-pill-cancel">
+                Vazgeç
+            </a>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Kart Yapısı */
+    .card-modern-compact {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+    }
+
+    .form-group-custom {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group-custom label {
+            display: block;
+            color: #3f4254;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    .form-control-modern {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border: 1px solid #e1e3ea;
+        background: #f9f9f9;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        outline: none;
+    }
+
+        .form-control-modern:focus {
+            border-color: #1a7a3f;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(26, 122, 63, 0.1);
+        }
+
+    /* Önizleme Alanı */
+    .preview-container {
+        text-align: center;
+        margin: 1.5rem 0;
+        padding: 15px;
+        background: #fcfdfe;
+        border-radius: 10px;
+        border: 1px dashed #e1e3ea;
+    }
+
+        .preview-container p {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #a1a5b7;
+            margin-bottom: 10px;
+        }
+
+    .logo-preview-box {
+        width: 80px;
+        height: 80px;
+        background: white;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        border: 1px solid #f1f1f4;
+    }
+
+        .logo-preview-box img {
+            max-width: 60px;
+            max-height: 60px;
+            object-fit: contain;
+        }
+
+    /* Butonlar */
+    .form-actions-pill {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 2rem;
+    }
+
+    .btn-pill-submit {
+        background: #1a7a3f;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 50px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+        .btn-pill-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26,122,63,0.3);
+        }
+
+    .btn-pill-cancel {
+        color: #7e8299;
+        text-align: center;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+        .btn-pill-cancel:hover {
+            color: #f1416c;
+        }
+</style>
+
+<script>
+    // URL girildiğinde logonun anlık önizlemesini gösterir
+    const logoInput = document.getElementById('logoInput');
+    const logoPreview = document.getElementById('logoPreview');
+
+    logoInput.addEventListener('input', function() {
+        const url = this.value;
+        if (url) {
+            logoPreview.src = url;
+        } else {
+            logoPreview.src = "https://via.placeholder.com/100?text=Logo";
+        }
+    });
+
+    // Resim yüklenemezse hata görseli göster
+    logoPreview.onerror = function() {
+        this.src = "https://via.placeholder.com/100?text=Hatalı+URL";
+    }
+</script>

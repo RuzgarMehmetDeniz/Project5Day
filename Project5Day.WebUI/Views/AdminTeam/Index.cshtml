@@ -1,0 +1,259 @@
+﻿@model List<Project5Day.WebUI.Dtos.TeamDtos.ResultTeamDto>
+
+@{
+    ViewData["Title"] = "Takım Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0 5px;">
+    <div style="border-left: 4px solid #1a7a3f; padding-left: 12px;">
+        <h3 style="color: #1a7a3f; font-weight: 800; margin: 0; text-transform: uppercase; font-size: 1.2rem;">Takım Yönetimi</h3>
+        <p style="color: #777; font-size: 0.8rem; margin: 0;">Kulüp kontrol merkezi.</p>
+    </div>
+    @* Yeni Takım Ekle butonunu doğrudan Link yaptık *@
+    <a href="/AdminTeam/CreateTeam/" class="btn-add-modern" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+        <i class="fas fa-plus"></i> Yeni Takım Ekle
+    </a>
+</div>
+
+<div class="card-modern-compact">
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th style="width: 60px;">#</th>
+                <th>LOGO</th>
+                <th>TAKIM ADI</th>
+                <th style="width: 240px;">İŞLEMLER</th>
+            </tr>
+        </thead>
+        <tbody id="teamTableBody">
+            @if (Model != null)
+            {
+                int count = 0;
+                foreach (var item in Model)
+                {
+                    count++;
+                    <tr class="team-row-item">
+                        <td class="row-number">@count.ToString("D2")</td>
+                        <td>
+                            <div class="logo-wrapper-small">
+                                <img src="@item.Logo" alt="@item.Name">
+                            </div>
+                        </td>
+                        <td class="team-name">@item.Name</td>
+                        <td>
+                            <div style="display: flex; justify-content: center; gap: 8px;">
+                                @* Güncelleme ve Silme butonları doğrudan Controller Action'larına gider *@
+                                <a href="/AdminTeam/UpdateTeam/@item.TeamId" class="btn-pill btn-update-pill">
+                                    <i class="fas fa-edit"></i> Güncelle
+                                </a>
+                                <a href="/AdminTeam/DeleteTeam/@item.TeamId" class="btn-pill btn-delete-pill" onclick="return confirm('@item.Name takımını silmek istediğinize emin misiniz?')">
+                                    <i class="fas fa-trash-alt"></i> Sil
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination-container-small">
+        <span id="pageInfo"></span>
+        <div id="paginationButtons"></div>
+    </div>
+</div>
+
+<style>
+    /* Tasarım detayları (CSS) aynı kalıyor */
+    .card-modern-compact {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+        max-width: 95%;
+        margin: 0 auto;
+    }
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-custom thead th {
+            color: #b5b5c3;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 12px;
+            border-bottom: 1px solid #f4f4f7;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+    .team-row-item td {
+        padding: 10px;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .team-row-item {
+        border-bottom: 1px solid #fbfbfb;
+        transition: background 0.2s ease;
+    }
+
+        .team-row-item:hover {
+            background-color: #fcfdfe;
+        }
+
+    .row-number {
+        color: #1a7a3f;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .team-name {
+        font-weight: 700;
+        color: #3f4254;
+        font-size: 0.9rem;
+    }
+
+    .logo-wrapper-small {
+        background: #f9f9f9;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin: 0 auto;
+        border: 1px solid #f1f1f1;
+    }
+
+        .logo-wrapper-small img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+    .btn-add-modern {
+        background: #1a7a3f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-add-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(26,122,63,0.2);
+            color: white;
+        }
+
+    .btn-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        min-width: 90px;
+        justify-content: center;
+    }
+
+    .btn-update-pill {
+        color: #009ef7;
+        background: #f1faff;
+        border: 1px solid #e1f0ff;
+    }
+
+        .btn-update-pill:hover {
+            background: #009ef7;
+            color: white;
+            transform: scale(1.05);
+        }
+
+    .btn-delete-pill {
+        color: #f1416c;
+        background: #fff5f8;
+        border: 1px solid #ffeef3;
+    }
+
+        .btn-delete-pill:hover {
+            background: #f1416c;
+            color: white;
+            transform: scale(1.05);
+        }
+
+    .pagination-container-small {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #f4f4f7;
+    }
+
+    #pageInfo {
+        font-size: 0.75rem;
+        color: #a1a5b7;
+        font-weight: 600;
+    }
+
+    .page-btn {
+        padding: 5px 12px;
+        margin-left: 4px;
+        border-radius: 6px;
+        border: 1px solid #ebebed;
+        background: white;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #5e6278;
+    }
+
+        .page-btn.active {
+            background: #1a7a3f;
+            color: white;
+            border-color: #1a7a3f;
+        }
+</style>
+
+@* SCRIPT SADECE SAYFALAMA İÇİN *@
+<script>
+    const rowsPerPage = 5;
+    const rows = Array.from(document.querySelectorAll('.team-row-item'));
+    const paginationButtons = document.getElementById('paginationButtons');
+    const pageInfo = document.getElementById('pageInfo');
+
+    function displayPage(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        rows.forEach((row, i) => {
+            row.style.display = (i >= start && i < end) ? '' : 'none';
+        });
+        pageInfo.innerText = `${rows.length} kayıttan ${start + 1}-${Math.min(end, rows.length)} arası`;
+        updateButtons(page);
+    }
+
+    function updateButtons(page) {
+        paginationButtons.innerHTML = '';
+        const pageCount = Math.ceil(rows.length / rowsPerPage);
+        for (let i = 1; i <= pageCount; i++) {
+            const btn = document.createElement('button');
+            btn.innerText = i;
+            btn.classList.add('page-btn');
+            if (i === page) btn.classList.add('active');
+            btn.onclick = () => displayPage(i);
+            paginationButtons.appendChild(btn);
+        }
+    }
+
+    if(rows.length > 0) displayPage(1);
+</script>

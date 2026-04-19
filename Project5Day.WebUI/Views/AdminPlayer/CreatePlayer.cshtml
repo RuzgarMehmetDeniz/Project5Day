@@ -1,0 +1,126 @@
+﻿@model Project5Day.WebUI.Dtos.PlayerDtos.CreatePlayerDto
+
+@{
+    ViewData["Title"] = "Yeni Oyuncu Ekle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="margin-bottom: 1.5rem; padding: 0 10px;">
+    <div style="border-left: 4px solid #1a7a3f; padding-left: 12px;">
+        <h3 style="color: #1a7a3f; font-weight: 800; margin: 0; text-transform: uppercase; font-size: 1.2rem;">YENİ OYUNCU KAYDI</h3>
+        <p style="color: #777; font-size: 0.85rem; margin: 0;">Sisteme yeni bir sporcu dahil edin.</p>
+    </div>
+</div>
+
+<div class="card-modern-full">
+    <form asp-action="CreatePlayer" asp-controller="AdminPlayer" method="post">
+        <div class="form-container">
+            <div class="form-main-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label><i class="fas fa-user"></i> Adı</label>
+                        <input type="text" asp-for="Name" placeholder="Örn: Lucas" required />
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-user-tag"></i> Soyadı</label>
+                        <input type="text" asp-for="Surname" placeholder="Örn: Paqueta" required />
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-running"></i> Mevki</label>
+                        <input type="text" asp-for="Position" placeholder="Örn: Orta Saha" required />
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-tshirt"></i> Forma Numarası</label>
+                        <input type="number" asp-for="KitNumber" placeholder="10" required />
+                    </div>
+
+                    <div class="input-group" style="grid-column: span 2;">
+                        <label><i class="fas fa-users"></i> Takımı</label>
+                        @Html.DropDownListFor(x => x.TeamId, (List<SelectListItem>)ViewBag.Teams, "--- Takım Seçiniz ---", new { @class = "form-select-modern" })
+                    </div>
+
+                    <div class="input-group" style="grid-column: span 2;">
+                        <label><i class="fas fa-image"></i> Oyuncu Fotoğraf URL</label>
+                        <input type="text" asp-for="PlayerImageUrl" id="photoUrlInput" placeholder="https://..." />
+                    </div>
+                </div>
+
+                <div class="form-footer-actions">
+                    <button type="submit" class="btn-save-full">
+                        <i class="fas fa-check-circle"></i> Oyuncuyu Kaydet
+                    </button>
+                    <a href="/AdminPlayer/Index" class="btn-cancel-link">Listeye Dön</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .card-modern-full {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+
+    .input-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .input-group label {
+        display: block;
+        font-weight: 700;
+        color: #3f4254;
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+
+    .input-group input, .form-select-modern {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border: 1px solid #e1e3ea;
+        background: #fcfdfe;
+        transition: 0.3s;
+        font-size: 0.9rem;
+        outline: none;
+    }
+
+        .input-group input:focus, .form-select-modern:focus {
+            border-color: #1a7a3f;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(26, 122, 63, 0.1);
+        }
+
+    .btn-save-full {
+        background: #1a7a3f;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
+        .btn-save-full:hover {
+            background: #145e31;
+            transform: translateY(-2px);
+        }
+
+    .btn-cancel-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #7e8299;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+</style>

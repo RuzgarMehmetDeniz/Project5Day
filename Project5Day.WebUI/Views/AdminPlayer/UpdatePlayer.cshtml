@@ -1,0 +1,255 @@
+﻿@model Project5Day.WebUI.Dtos.PlayerDtos.UpdatePlayerDto
+
+@{
+    ViewData["Title"] = "Oyuncu Güncelle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="margin-bottom: 2rem; padding: 0 10px;">
+    <div style="border-left: 4px solid #009ef7; padding-left: 15px;">
+        <h3 style="color: #009ef7; font-weight: 800; margin: 0; text-transform: uppercase; font-size: 1.3rem;">OYUNCU DÜZENLE</h3>
+        <p style="color: #7e8299; font-size: 0.9rem; margin-top: 4px;">Mevcut oyuncu bilgilerini revize edin ve kadroyu güncel tutun.</p>
+    </div>
+</div>
+
+<div class="card-modern-container">
+    <form asp-action="UpdatePlayer" asp-controller="AdminPlayer" method="post">
+        @* PlayerId gizli olarak gönderilmeli *@
+        <input type="hidden" asp-for="PlayerId" />
+
+        <div class="update-layout">
+            <div class="form-content-box">
+                <div class="input-grid-modern">
+                    <div class="form-group-modern">
+                        <label>Adı</label>
+                        <input type="text" asp-for="Name" class="form-control-modern" placeholder="Örn: Jorgen" required />
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label>Soyadı</label>
+                        <input type="text" asp-for="Surname" class="form-control-modern" placeholder="Örn: Strand Larsen" required />
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label>Mevki</label>
+                        <input type="text" asp-for="Position" class="form-control-modern" placeholder="Örn: Forvet" required />
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label>Forma No</label>
+                        <input type="number" asp-for="KitNumber" class="form-control-modern" placeholder="9" required />
+                    </div>
+
+                    <div class="form-group-modern full-width">
+                        <label>Takımı</label>
+                        @Html.DropDownListFor(x => x.TeamId, (List<SelectListItem>)ViewBag.Teams, new { @class = "form-select-modern" })
+                    </div>
+
+                    <div class="form-group-modern full-width">
+                        <label>Fotoğraf URL</label>
+                        <input type="text" asp-for="PlayerImageUrl" id="photoUrlInput" class="form-control-modern" placeholder="https://..." />
+                    </div>
+                </div>
+
+                <div class="action-buttons-modern">
+                    <button type="submit" class="btn-update-submit">
+                        <i class="fas fa-save" style="margin-right: 8px;"></i> Değişiklikleri Uygula
+                    </button>
+                    <a href="/AdminPlayer/Index" class="btn-vazgec">İptal Et ve Geri Dön</a>
+                </div>
+            </div>
+
+            <div class="preview-card-wrapper">
+                <div class="player-preview-card">
+                    <span class="preview-tag">PROFİL ÖNİZLEME</span>
+                    <div class="preview-image-box">
+                        <img id="previewImg" src="@Model.PlayerImageUrl" alt="Player" onerror="this.src='https://via.placeholder.com/150?text=?'">
+                    </div>
+                    <div class="preview-details">
+                        <h4 id="previewFullName">@Model.Name @Model.Surname</h4>
+                        <span id="previewPosition" class="badge-pos">@Model.Position</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .card-modern-container {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+        border: 1px solid #f1f1f4;
+    }
+
+    .update-layout {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 3rem;
+        align-items: start;
+    }
+
+    /* Form Stilleri */
+    .input-grid-modern {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .full-width {
+        grid-column: span 2;
+    }
+
+    .form-group-modern label {
+        display: block;
+        font-weight: 700;
+        color: #3f4254;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control-modern, .form-select-modern {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: 12px;
+        border: 1px solid #e1e3ea;
+        background: #fcfdfe;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+        color: #181c32;
+        outline: none;
+    }
+
+        .form-control-modern:focus, .form-select-modern:focus {
+            border-color: #009ef7;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 158, 247, 0.1);
+        }
+
+    /* Butonlar */
+    .action-buttons-modern {
+        margin-top: 2.5rem;
+        border-top: 1px solid #f3f6f9;
+        padding-top: 2rem;
+    }
+
+    .btn-update-submit {
+        background: #009ef7;
+        color: white;
+        border: none;
+        padding: 16px 35px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1rem;
+        transition: 0.3s;
+    }
+
+        .btn-update-submit:hover {
+            background: #0086d1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,158,247,0.3);
+        }
+
+    .btn-vazgec {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #7e8299;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+        .btn-vazgec:hover {
+            color: #f1416c;
+        }
+
+    /* Sağ Önizleme Kartı */
+    .player-preview-card {
+        background: #f9fafb;
+        border: 2px dashed #e1e3ea;
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+    }
+
+    .preview-tag {
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #a1a5b7;
+        letter-spacing: 1px;
+    }
+
+    .preview-image-box {
+        width: 160px;
+        height: 160px;
+        margin: 20px auto;
+        border-radius: 18px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+        border: 4px solid white;
+    }
+
+        .preview-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .preview-details h4 {
+        margin: 10px 0 5px;
+        color: #181c32;
+        font-weight: 800;
+        font-size: 1.1rem;
+    }
+
+    .badge-pos {
+        background: #e1f0ff;
+        color: #009ef7;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        display: inline-block;
+    }
+
+    @@media (max-width: 992px) {
+        .update-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .preview-card-wrapper {
+            order: -1;
+        }
+    }
+</style>
+
+<script>
+    // Canlı Önizleme Scripti
+    const photoInput = document.getElementById('photoUrlInput');
+    const previewImg = document.getElementById('previewImg');
+
+    photoInput.addEventListener('input', function(e) {
+        if(e.target.value) {
+            previewImg.src = e.target.value;
+        }
+    });
+
+    // Ad-Soyad canlı güncelleme
+    const nameInp = document.querySelector('input[name="Name"]');
+    const surnameInp = document.querySelector('input[name="Surname"]');
+    const previewName = document.getElementById('previewFullName');
+
+    [nameInp, surnameInp].forEach(inp => {
+        inp.addEventListener('input', () => {
+            previewName.innerText = `${nameInp.value} ${surnameInp.value}`;
+        });
+    });
+</script>

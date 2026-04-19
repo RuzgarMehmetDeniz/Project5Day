@@ -1,0 +1,207 @@
+﻿@model Project5Day.WebUI.Dtos.TeamDtos.UpdateTeamDto
+
+@{
+    ViewData["Title"] = "Takım Güncelle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="margin-bottom: 1.5rem; padding: 0 10px;">
+    <div style="border-left: 4px solid #009ef7; padding-left: 12px;">
+        <h3 style="color: #009ef7; font-weight: 800; margin: 0; text-transform: uppercase; font-size: 1.2rem;">Takım Bilgilerini Düzenle</h3>
+        <p style="color: #777; font-size: 0.85rem; margin: 0;">Mevcut kulüp verilerini güncelleyin.</p>
+    </div>
+</div>
+
+<div class="card-modern-full">
+    <form asp-action="UpdateTeam" asp-controller="AdminTeam" method="post">
+        @* Güncelleme işlemi için ID şart, bunu gizli bir şekilde gönderiyoruz *@
+        <input type="hidden" asp-for="TeamId" />
+
+        <div class="form-container">
+            <div class="form-main-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label><i class="fas fa-shield-alt"></i> Takım Adı</label>
+                        <input type="text" asp-for="Name" id="teamNameInput" placeholder="Örn: Real Madrid" required />
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fas fa-link"></i> Logo URL</label>
+                        <input type="text" asp-for="Logo" id="logoUrlInput" placeholder="https://..." required />
+                    </div>
+                </div>
+
+                <div class="form-footer-actions">
+                    <button type="submit" class="btn-update-full">
+                        <i class="fas fa-sync-alt"></i> Değişiklikleri Kaydet
+                    </button>
+                    <a href="/AdminTeam/Index" class="btn-cancel-link">Geri Dön</a>
+                </div>
+            </div>
+
+            <div class="form-preview-section">
+                <div class="preview-card highlight-blue">
+                    <span>Mevcut Görünüm</span>
+                    <div class="logo-display">
+                        <img id="previewImg" src="@Model.Logo" alt="Logo" onerror="this.src='https://via.placeholder.com/120?text=HATA'" />
+                    </div>
+                    <p id="previewName" style="font-weight: 700; color: #3f4254;">@Model.Name</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .card-modern-full {
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+
+    .form-container {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 3rem;
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .input-group label {
+            display: block;
+            font-weight: 700;
+            color: #3f4254;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid #e1e3ea;
+            background: #fcfdfe;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+            .input-group input:focus {
+                border-color: #009ef7;
+                background: white;
+                box-shadow: 0 0 0 4px rgba(0, 158, 247, 0.08);
+                outline: none;
+            }
+
+    /* Sağ Önizleme Kartı */
+    .preview-card {
+        background: #f8f9fb;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        border: 2px dashed #e1e3ea;
+    }
+
+    .highlight-blue {
+        border-color: #009ef733;
+    }
+
+    .preview-card span {
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #a1a5b7;
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .logo-display {
+        width: 120px;
+        height: 120px;
+        background: white;
+        margin: 0 auto 15px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border: 1px solid #f1f1f4;
+    }
+
+        .logo-display img {
+            max-width: 90px;
+            max-height: 90px;
+            object-fit: contain;
+        }
+
+    /* Güncelleme Butonu */
+    .btn-update-full {
+        background: #009ef7;
+        color: white;
+        border: none;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+        .btn-update-full:hover {
+            background: #0086d1;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,158,247,0.3);
+        }
+
+    .btn-cancel-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #7e8299;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+        .btn-cancel-link:hover {
+            color: #f1416c;
+        }
+
+    @@media (max-width: 992px) {
+        .form-container {
+            grid-template-columns: 1fr;
+        }
+
+        .form-preview-section {
+            order: -1;
+        }
+    }
+</style>
+
+<script>
+    const nameInput = document.getElementById('teamNameInput');
+    const logoInput = document.getElementById('logoUrlInput');
+    const previewName = document.getElementById('previewName');
+    const previewImg = document.getElementById('previewImg');
+
+    // Takım adı değiştikçe önizlemeyi güncelle
+    nameInput.addEventListener('input', (e) => {
+        previewName.textContent = e.target.value || "Takım Adı";
+    });
+
+    // Logo URL değiştikçe resmi güncelle
+    logoInput.addEventListener('input', (e) => {
+        if (e.target.value) {
+            previewImg.src = e.target.value;
+        }
+    });
+
+    // Resim yüklenemezse hata görseli bas
+    previewImg.onerror = function() {
+        this.src = "https://via.placeholder.com/120?text=Gecersiz+URL";
+    }
+</script>

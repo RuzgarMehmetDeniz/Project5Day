@@ -1,0 +1,286 @@
+﻿@model List<Project5Day.WebUI.Dtos.PlayerDtos.ResultPlayerDto>
+
+@{
+    ViewData["Title"] = "Oyuncu Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0 5px;">
+    <div style="border-left: 4px solid #1a7a3f; padding-left: 12px;">
+        <h3 style="color: #1a7a3f; font-weight: 800; margin: 0; text-transform: uppercase; font-size: 1.2rem;">OYUNCU LİSTESİ</h3>
+        <p style="color: #777; font-size: 0.8rem; margin: 0;">Sistemdeki tüm oyuncuları ve bağlı oldukları takımları buradan yönetin.</p>
+    </div>
+    <a href="/AdminPlayer/CreatePlayer" class="btn-add-modern" style="text-decoration: none;">
+        <i class="fas fa-plus"></i> Yeni Oyuncu Ekle
+    </a>
+</div>
+
+<div class="card-modern-compact">
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th style="width: 50px;">#</th>
+                <th style="width: 80px;">FOTOĞRAF</th>
+                <th>AD SOYAD</th>
+                <th>MEVKİ / NO</th>
+                <th>TAKIM</th>
+                <th style="width: 200px; text-align: center;">İŞLEMLER</th>
+            </tr>
+        </thead>
+        <tbody id="playerTableBody">
+            @if (Model != null)
+            {
+                int count = 0;
+                foreach (var item in Model)
+                {
+                    count++;
+                    <tr class="player-row-item">
+                        <td class="row-number">@count.ToString("D2")</td>
+                        <td>
+                            <div class="player-photo-wrapper">
+                                <img src="@item.PlayerImageUrl" alt="@item.Name" onerror="this.src='https://via.placeholder.com/50?text=?'">
+                            </div>
+                        </td>
+                        <td class="player-info">
+                            <span class="p-name">@item.Name</span>
+                            <span class="p-surname">@item.Surname.ToUpper()</span>
+                        </td>
+                        <td>
+                            <span class="badge-position">@item.Position</span>
+                            <span class="kit-number">#@item.KitNumber</span>
+                        </td>
+                        <td style="font-weight: 700; color: #1a7a3f;">
+                            <i class="fas fa-tshirt" style="margin-right: 5px; opacity: 0.5;"></i>@item.TeamName
+                        </td>
+                        <td>
+                            <div style="display: flex; justify-content: center; gap: 10px;">
+                                <a href="/AdminPlayer/UpdatePlayer/@item.PlayerId" class="btn-pill btn-update-pill">Güncelle</a>
+                                <a href="/AdminPlayer/DeletePlayer/@item.PlayerId" class="btn-pill btn-delete-pill" onclick="return confirm('Bu oyuncuyu silmek istediğinize emin misiniz?')">Sil</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination-footer">
+        <span id="pageInfo" style="color: #7e8299; font-size: 0.85rem; font-weight: 600;"></span>
+        <div id="paginationButtons" class="pagination-btns">
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-modern-compact {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+    }
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-custom th {
+            text-align: left;
+            padding: 15px;
+            color: #b5b5c3;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #f3f6f9;
+        }
+
+    .player-row-item td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #f3f6f9;
+        vertical-align: middle;
+    }
+
+    .player-photo-wrapper {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #f8f9fb;
+        border: 1px solid #ebedf3;
+    }
+
+        .player-photo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .p-name {
+        color: #3f4254;
+        font-weight: 500;
+    }
+
+    .p-surname {
+        color: #181c32;
+        font-weight: 800;
+    }
+
+    .badge-position {
+        background: #e1f0ff;
+        color: #009ef7;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .kit-number {
+        color: #7e8299;
+        font-weight: 700;
+        margin-left: 8px;
+    }
+
+    .btn-add-modern {
+        background: #1a7a3f;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        transition: 0.3s;
+    }
+
+    .btn-pill {
+        padding: 6px 16px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .btn-update-pill {
+        background: #f1faff;
+        color: #009ef7;
+    }
+
+    .btn-delete-pill {
+        background: #fff5f8;
+        color: #f1416c;
+    }
+
+    /* Sayfalama Stilleri */
+    .pagination-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 25px;
+        padding-top: 15px;
+        border-top: 1px solid #f3f6f9;
+    }
+
+    .pagination-btns {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .page-btn {
+        border: 1px solid #e1e3ea;
+        background: white;
+        color: #3f4254;
+        min-width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+    }
+
+        .page-btn.active {
+            background: #1a7a3f;
+            border-color: #1a7a3f;
+            color: white;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f9f9f9;
+        }
+
+    .pagination-dots {
+        color: #b5b5c3;
+        font-weight: 800;
+        padding: 0 5px;
+    }
+</style>
+
+<script>
+    const rowsPerPage = 5;
+    const rows = Array.from(document.querySelectorAll('.player-row-item'));
+    const paginationButtons = document.getElementById('paginationButtons');
+    const pageInfo = document.getElementById('pageInfo');
+    let currentPage = 1;
+
+    function displayPage(page) {
+        currentPage = page;
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        rows.forEach((row, i) => {
+            row.style.display = (i >= start && i < end) ? '' : 'none';
+        });
+
+        pageInfo.innerText = `Toplam ${rows.length} kayıttan ${start + 1}-${Math.min(end, rows.length)} arası gösteriliyor.`;
+        renderPagination();
+    }
+
+    function createBtn(text, page, isActive = false, isDisabled = false) {
+        const btn = document.createElement('button');
+        btn.innerText = text;
+        btn.classList.add('page-btn');
+        if (isActive) btn.classList.add('active');
+        if (isDisabled) btn.disabled = true;
+        btn.onclick = () => displayPage(page);
+        return btn;
+    }
+
+    function renderPagination() {
+        paginationButtons.innerHTML = '';
+        const pageCount = Math.ceil(rows.length / rowsPerPage);
+
+        paginationButtons.appendChild(createBtn('<', currentPage - 1, false, currentPage === 1));
+
+        if (currentPage > 3) {
+            paginationButtons.appendChild(createBtn('1', 1));
+            if (currentPage > 4) {
+                const dots = document.createElement('span');
+                dots.innerText = '...';
+                dots.classList.add('pagination-dots');
+                paginationButtons.appendChild(dots);
+            }
+        }
+
+        for (let i = Math.max(1, currentPage - 2); i <= Math.min(pageCount, currentPage + 2); i++) {
+            paginationButtons.appendChild(createBtn(i, i, i === currentPage));
+        }
+
+        if (currentPage < pageCount - 2) {
+            if (currentPage < pageCount - 3) {
+                const dots = document.createElement('span');
+                dots.innerText = '...';
+                dots.classList.add('pagination-dots');
+                paginationButtons.appendChild(dots);
+            }
+            paginationButtons.appendChild(createBtn(pageCount, pageCount));
+        }
+
+        paginationButtons.appendChild(createBtn('>', currentPage + 1, false, currentPage === pageCount));
+    }
+
+    if(rows.length > 0) displayPage(1);
+</script>

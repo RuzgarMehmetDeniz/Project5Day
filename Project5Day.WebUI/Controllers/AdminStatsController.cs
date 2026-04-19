@@ -2,13 +2,9 @@
 
 namespace Project5Day.WebUI.Controllers
 {
-    public class AdminLayoutController : Controller
+    public class AdminStatsController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Dashboard()
         {
             return View();
         }
