@@ -1,0 +1,239 @@
+﻿@model List<Project5Day.WebUI.Dtos.StadiumDtos.ResultStadiumDto>
+
+@{
+    ViewData["Title"] = "Stadyum Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0 5px;">
+    <div style="border-left: 4px solid #1a7a3f; padding-left: 12px;">
+        <h3 style="color: #1a7a3f; font-weight: 800; margin: 0; text-transform: uppercase; font-size: 1.2rem;">STADYUM LİSTESİ</h3>
+        <p style="color: #777; font-size: 0.8rem; margin: 0;">Sistemdeki stadyumların yönetim paneli.</p>
+    </div>
+    <a href="/AdminStadium/CreateStadium" class="btn-add-modern">
+        <i class="fas fa-plus"></i> Yeni Stadyum Ekle
+    </a>
+</div>
+
+<div class="card-modern-compact">
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th style="width: 50px;">#</th>
+                <th style="width: 120px;">GÖRSEL</th>
+                <th>STADYUM ADI</th>
+                <th>ŞEHİR</th>
+                <th>KAPASİTE</th>
+                <th style="width: 200px; text-align: center;">İŞLEMLER</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                int count = (ViewBag.CurrentPage - 1) * 5;
+                foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td class="row-number">@count.ToString("D2")</td>
+                        <td>
+                            <div class="stadium-img-box">
+                                <img src="@item.ImageUrl" onerror="this.src='https://via.placeholder.com/100x60?text=Stadyum'">
+                            </div>
+                        </td>
+                        <td style="font-weight: 700; color: #181c32;">@item.Name</td>
+                        <td><span class="city-badge">@item.City</span></td>
+                        <td>
+                            <div style="font-weight: 600; color: #3f4254;">
+                                <i class="fas fa-users" style="color: #b5b5c3; margin-right: 5px;"></i> @item.Capacity.ToString("N0")
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display: flex; justify-content: center; gap: 8px;">
+                                <a href="/AdminStadium/UpdateStadium/@item.StadiumId" class="btn-pill btn-update-pill">Güncelle</a>
+                                <a href="/AdminStadium/DeleteStadium/@item.StadiumId" class="btn-pill btn-delete-pill" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination-footer">
+        <div class="pagination-summary">
+            Toplam <strong>@ViewBag.TotalPages</strong> sayfa içinden <strong>@ViewBag.CurrentPage</strong>. sayfa
+        </div>
+
+        <div class="modern-pagination">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <a href="/AdminStadium/Index?page=@(ViewBag.CurrentPage - 1)" class="page-btn nav-btn"><i class="fas fa-chevron-left"></i></a>
+            }
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                if (i == 1 || i == ViewBag.TotalPages || (i >= ViewBag.CurrentPage - 1 && i <= ViewBag.CurrentPage + 1))
+                {
+                    <a href="/AdminStadium/Index?page=@i" class="page-btn @(ViewBag.CurrentPage == i ? "active" : "")">@i</a>
+                }
+                else if (i == ViewBag.CurrentPage - 2 || i == ViewBag.CurrentPage + 2)
+                {
+                    <span class="page-dots">...</span>
+                }
+            }
+
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <a href="/AdminStadium/Index?page=@(ViewBag.CurrentPage + 1)" class="page-btn nav-btn"><i class="fas fa-chevron-right"></i></a>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Temel Tasarım */
+    .card-modern-compact {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+    }
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-custom th {
+            text-align: left;
+            padding: 15px;
+            color: #b5b5c3;
+            font-size: 0.75rem;
+            border-bottom: 1px solid #f3f6f9;
+            text-transform: uppercase;
+        }
+
+        .table-custom td {
+            padding: 15px;
+            border-bottom: 1px solid #f3f6f9;
+            vertical-align: middle;
+        }
+
+    .stadium-img-box {
+        width: 100px;
+        height: 60px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f8f9fb;
+        border: 1px solid #ebedf3;
+    }
+
+        .stadium-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .city-badge {
+        background: #f1faff;
+        color: #009ef7;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+
+    /* Butonlar */
+    .btn-add-modern {
+        background: #1a7a3f;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.85rem;
+    }
+
+    .btn-pill {
+        padding: 6px 16px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .btn-update-pill {
+        background: #f1faff;
+        color: #009ef7;
+    }
+
+    .btn-delete-pill {
+        background: #fff5f8;
+        color: #f1416c;
+    }
+
+    /* Sayfalama (Oyuncu Sayfası İle Aynı) */
+    .pagination-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid #eff2f5;
+    }
+
+    .pagination-summary {
+        font-size: 0.8rem;
+        color: #7e8299;
+        font-weight: 500;
+    }
+
+    .modern-pagination {
+        display: flex;
+        gap: 5px;
+    }
+
+    .page-btn {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        background: #f5f8fa;
+        color: #5e6278;
+        transition: 0.2s;
+    }
+
+        .page-btn.active {
+            background: #1a7a3f;
+            color: white;
+        }
+
+        .page-btn:hover:not(.active) {
+            background: #e1e3ea;
+            color: #1a7a3f;
+        }
+
+    .nav-btn {
+        background: white;
+        border: 1px solid #eff2f5;
+    }
+
+    .page-dots {
+        color: #b5b5c3;
+        font-weight: bold;
+        padding: 0 2px;
+    }
+
+    .row-number {
+        font-weight: 800;
+        color: #b5b5c3;
+        font-family: monospace;
+    }
+</style>

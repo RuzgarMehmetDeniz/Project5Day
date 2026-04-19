@@ -1,0 +1,271 @@
+﻿@model List<Project5Day.WebUI.Dtos.MatchStatisticDtos.ResultMatchStatisticDto>
+
+@{
+    ViewData["Title"] = "İstatistik Listesi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<div class="page-header-modern">
+    <div class="header-title-box">
+        <h3 class="main-title">MAÇ İSTATİSTİKLERİ</h3>
+        <p class="sub-title">Sistemdeki tüm maç verilerinin yönetimi.</p>
+    </div>
+    <a href="/AdminMatchStatistic/CreateMatchStatistic" class="btn-create-new">
+        <i class="fas fa-plus-circle"></i> Yeni İstatistik Girişi
+    </a>
+</div>
+
+<div class="card-table-container">
+    <table class="table-modern">
+        <thead>
+            <tr>
+                <th style="width: 50px;">#</th>
+                <th style="width: 100px;">MAÇ ID</th>
+                <th class="text-center">EV SAHİBİ (%TOPLA)</th>
+                <th class="text-center">ŞUT (İSABETLİ)</th>
+                <th class="text-center">DEPLASMAN (%TOPLA)</th>
+                <th class="text-center" style="width: 150px;">İŞLEMLER</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                int count = (ViewBag.CurrentPage - 1) * 5;
+                foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td class="td-number">@count.ToString("D2")</td>
+                        <td class="td-match-id">#@item.MatchId</td>
+                        <td class="text-center">
+                            <span class="badge-stat home-bg">%@item.HomePossession</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="shot-detail">
+                                <span class="home-val">@item.HomeShots (@item.HomeShotsOnTarget)</span>
+                                <span class="sep">-</span>
+                                <span class="away-val">@item.AwayShots (@item.AwayShotsOnTarget)</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge-stat away-bg">%@item.AwayPossession</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a href="/AdminMatchStatistic/UpdateMatchStatistic/@item.MatchStatisticId" class="btn-st-action edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="/AdminMatchStatistic/DeleteMatchStatistic/@item.MatchStatisticId" class="btn-st-action delete" onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center" style="padding: 40px; color: #b5b5c3;">Henüz istatistik verisi bulunmuyor.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination-container">
+        <div class="pagination-list">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="/AdminMatchStatistic/Index?page=@i" class="page-num @(ViewBag.CurrentPage == i ? "active" : "")">@i</a>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Temel Konteyner ve Başlık */
+    .page-header-modern {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .main-title {
+        color: #1a7a3f;
+        font-weight: 800;
+        margin: 0;
+        font-size: 1.4rem;
+        border-left: 5px solid #1a7a3f;
+        padding-left: 15px;
+    }
+
+    .sub-title {
+        color: #888;
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+
+    .btn-create-new {
+        color: #1a7a3f;
+        font-weight: 700;
+        text-decoration: underline;
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+        .btn-create-new:hover {
+            color: #145e30;
+        }
+
+    /* Tablo Tasarımı */
+    .card-table-container {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+    }
+
+    .table-modern {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-modern th {
+            color: #b5b5c3;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 15px;
+            border-bottom: 1px solid #f3f6f9;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .table-modern td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #f3f6f9;
+            vertical-align: middle;
+        }
+
+    /* Veri Hücreleri */
+    .td-number {
+        color: #d1d1e9;
+        font-weight: 700;
+        font-family: 'Courier New', monospace;
+    }
+
+    .td-match-id {
+        font-weight: 800;
+        color: #181c32;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* İstatistik Rozetleri */
+    .badge-stat {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        display: inline-block;
+        min-width: 60px;
+    }
+
+    .home-bg {
+        background: #e8fff3;
+        color: #1a7a3f;
+    }
+
+    .away-bg {
+        background: #fff5f8;
+        color: #f1416c;
+    }
+
+    /* Şut Detayı */
+    .shot-detail {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #3f4254;
+    }
+
+    .sep {
+        color: #e1e3ea;
+        margin: 0 8px;
+    }
+
+    /* İŞLEM BUTONLARI (Kritik Alan) */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-st-action {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+        .btn-st-action.edit {
+            background: #f1faff;
+            color: #009ef7;
+            border: 1px solid #dcf1ff;
+        }
+
+        .btn-st-action.delete {
+            background: #fff5f8;
+            color: #f1416c;
+            border: 1px solid #ffe2e5;
+        }
+
+        .btn-st-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-st-action i {
+            font-size: 1.1rem;
+        }
+
+    /* Sayfalama */
+    .pagination-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 25px;
+    }
+
+    .pagination-list {
+        display: flex;
+        gap: 8px;
+    }
+
+    .page-num {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 700;
+        color: #5e6278;
+        background: #f5f8fa;
+        transition: 0.2s;
+    }
+
+        .page-num.active {
+            background: #1a7a3f;
+            color: white;
+        }
+
+        .page-num:hover:not(.active) {
+            background: #e1e3ea;
+        }
+</style>

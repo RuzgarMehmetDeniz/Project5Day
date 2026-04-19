@@ -1,0 +1,329 @@
+﻿@model List<Project5Day.WebUI.Dtos.MatchDtos.ResultMatchDto>
+
+@{
+    ViewData["Title"] = "Maç Listesi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<div class="page-header-modern">
+    <div class="header-title-box">
+        <h3 class="main-title">FİKSTÜR & MAÇ YÖNETİMİ</h3>
+        <p class="sub-title">Sistemdeki tüm karşılaşmaların haftalık takibi ve yönetimi.</p>
+    </div>
+    <a href="/AdminMatch/CreateMatch" class="btn-create-new-link">
+        <i class="fas fa-calendar-plus"></i> Yeni Maç Planla
+    </a>
+</div>
+
+<div class="card-table-container">
+    <table class="table-modern">
+        <thead>
+            <tr>
+                <th style="width: 80px;">HAFTA</th>
+                <th>KARŞILAŞMA</th>
+                <th class="text-center">SKOR</th>
+                <th>TARİH / SAAT</th>
+                <th>STADYUM</th>
+                <th class="text-center">DURUM</th>
+                <th class="text-center">İŞLEMLER</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><span class="week-badge">@item.WeekNumber</span></td>
+                        <td>
+                            <div class="match-vs-box">
+                                <div class="team-mini">
+                                    <img src="@item.HomeTeamLogo" onerror="this.src='/images/default-team.png'" alt="Home">
+                                    <span>@item.HomeTeamName</span>
+                                </div>
+                                <span class="vs-text">vs</span>
+                                <div class="team-mini">
+                                    <img src="@item.AwayTeamLogo" onerror="this.src='/images/default-team.png'" alt="Away">
+                                    <span>@item.AwayTeamName</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="final-score-badge">@(string.IsNullOrEmpty(item.FinalScore) ? "0 - 0" : item.FinalScore)</span>
+                        </td>
+                        <td>
+                            <div class="date-time-box">
+                                <span class="d-date">@item.MatchDate.ToString("dd.MM.yyyy")</span>
+                                <span class="d-time">@item.MatchTime</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="stadium-text">
+                                <i class="fas fa-map-marker-alt"></i> @item.StadiumName
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            @if (item.MatchStatus == "Bitti")
+                            {
+                                <span class="status-pill finished">Bitti</span>
+                            }
+                            else if (item.MatchStatus == "Oynanıyor")
+                            {
+                                <span class="status-pill live"><i class="fas fa-circle blink"></i> Canlı</span>
+                            }
+                            else
+                            {
+                                <span class="status-pill scheduled">Bekliyor</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a href="/AdminMatch/UpdateMatch/@item.MatchId" class="btn-st-action edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="/AdminMatch/DeleteMatch/@item.MatchId" class="btn-st-action delete" onclick="return confirm('Bu maçı silmek istediğinize emin misiniz?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">Henüz planlanmış bir maç bulunamadı.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination-wrapper">
+        <div class="pagination-info">
+            Toplam <strong>@ViewBag.TotalPages</strong> sayfa arasından <strong>@ViewBag.CurrentPage</strong>. sayfa gösteriliyor
+        </div>
+        <div class="pagination-list-modern">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="/AdminMatch/Index?page=@i" class="page-item-link @(ViewBag.CurrentPage == i ? "active" : "")">@i</a>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Tasarımı Diğer Sayfalarla Eşitleyen CSS */
+    .page-header-modern {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding: 0 5px;
+    }
+
+    .main-title {
+        color: #1a7a3f;
+        font-weight: 800;
+        border-left: 5px solid #1a7a3f;
+        padding-left: 15px;
+        margin: 0;
+    }
+
+    .sub-title {
+        color: #7e8299;
+        font-size: 0.85rem;
+        margin: 5px 0 0 20px;
+    }
+
+    .btn-create-new-link {
+        background: transparent;
+        color: #1a7a3f;
+        border: 2px solid #1a7a3f;
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+        .btn-create-new-link:hover {
+            background: #1a7a3f;
+            color: white;
+            box-shadow: 0 5px 15px rgba(26,122,63,0.2);
+        }
+
+    .card-table-container {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.02);
+    }
+
+    .table-modern {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+        .table-modern thead th {
+            color: #b5b5c3;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-bottom: 1px solid #f3f6f9;
+        }
+
+        .table-modern tbody tr {
+            transition: 0.2s;
+        }
+
+        .table-modern tbody td {
+            padding: 15px;
+            background: #fff;
+            border-bottom: 1px solid #f3f6f9;
+            vertical-align: middle;
+        }
+
+    /* Karşılaşma Alanı */
+    .match-vs-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .team-mini {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 150px;
+    }
+
+        .team-mini img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .team-mini span {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #3f4254;
+        }
+
+    .vs-text {
+        font-weight: 900;
+        color: #e1e3ea;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+    }
+
+    .week-badge {
+        background: #f1faff;
+        color: #009ef7;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 0.75rem;
+    }
+
+    .final-score-badge {
+        background: #181c32;
+        color: #fff;
+        padding: 6px 15px;
+        border-radius: 8px;
+        font-weight: 900;
+        font-family: 'monospace';
+    }
+
+    .status-pill {
+        padding: 6px 15px;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+
+        .status-pill.finished {
+            background: #f4f6fa;
+            color: #7e8299;
+        }
+
+        .status-pill.live {
+            background: #fff5f8;
+            color: #f1416c;
+        }
+
+        .status-pill.scheduled {
+            background: #e8fff3;
+            color: #50cd89;
+        }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .btn-st-action {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+        .btn-st-action.edit {
+            background: #e1f0ff;
+            color: #009ef7;
+        }
+
+        .btn-st-action.delete {
+            background: #ffe2e5;
+            color: #f1416c;
+        }
+
+    /* Pagination CSS Düzeltmesi */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .pagination-list-modern {
+        display: flex;
+        gap: 10px;
+    }
+
+    .page-item-link {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f8fa;
+        color: #5e6278;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 700;
+    }
+
+        .page-item-link.active {
+            background: #1a7a3f;
+            color: #fff;
+        }
+
+    .blink {
+        animation: blinker 1s linear infinite;
+        font-size: 8px;
+        margin-right: 5px;
+    }
+
+    @@keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+</style>

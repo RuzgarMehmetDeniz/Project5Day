@@ -1,0 +1,71 @@
+﻿@model Project5Day.WebUI.Dtos.MatchEventDtos.UpdateMatchEventDto
+
+@{
+    ViewData["Title"] = "Olay Güncelle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header-modern">
+    <div class="header-title-box">
+        <h3 class="main-title" style="border-left-color: #009ef7; color: #009ef7;">OLAYI DÜZENLE</h3>
+        <p class="sub-title">Kayıt ID: #@Model.MatchEventId | Maç ID: #@Model.MatchId</p>
+    </div>
+</div>
+
+<div class="card-form-container" style="border-top: 5px solid #009ef7;">
+    <form method="post">
+        <input type="hidden" asp-for="MatchEventId" />
+        <input type="hidden" asp-for="MatchId" />
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>DAKİKA</label>
+                <input type="number" asp-for="Minute" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label>OLAY TİPİ</label>
+                <select asp-for="Type" class="form-input select-custom">
+                    <option value="0">Gol</option>
+                    <option value="1">Sarı Kart</option>
+                    <option value="2">Kırmızı Kart</option>
+                    <option value="3">Oyuncu Değişikliği</option>
+                    <option value="4">VAR Kararı</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>TAKIM</label>
+                <select asp-for="IsHomeTeam" class="form-input select-custom">
+                    <option value="true">Ev Sahibi</option>
+                    <option value="false">Deplasman</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>OYUNCU ADI</label>
+                <input type="text" asp-for="PlayerName" class="form-input" />
+            </div>
+
+            <div class="form-group full-width">
+                <label>OLAY DETAYI</label>
+                <textarea asp-for="EventDetail" class="form-input" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>GİREN OYUNCU (↑)</label>
+                <input type="text" asp-for="PlayerIn" class="form-input" />
+            </div>
+
+            <div class="form-group">
+                <label>ÇIKAN OYUNCU (↓)</label>
+                <input type="text" asp-for="PlayerOut" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save-event" style="background: #009ef7; box-shadow: 0 5px 15px rgba(0,158,247,0.2);">Değişiklikleri Uygula</button>
+            <a href="/AdminMatchEvent/Index" class="btn-cancel">Geri Dön</a>
+        </div>
+    </form>
+</div>

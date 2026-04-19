@@ -1,0 +1,338 @@
+﻿@model List<Project5Day.WebUI.Dtos.MatchEventDtos.ResultMatchEventDto>
+
+@{
+    ViewData["Title"] = "Maç Olayları";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+@* Font Awesome ve Google Fonts bağlantılarının Layout'ta olduğundan emin olun, yoksa buraya ekleyin *@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<div class="page-header-modern">
+    <div class="header-title-box">
+        <h3 class="main-title">MAÇ OLAYLARI & AKIŞI</h3>
+        <p class="sub-title">Maçlardaki kritik anların (Gol, Kart, Değişiklik) yönetimi.</p>
+    </div>
+    <a href="/AdminMatchEvent/CreateMatchEvent" class="btn-create-new-link">
+        <i class="fas fa-plus-circle"></i> Yeni Olay Ekle
+    </a>
+</div>
+
+<div class="card-table-container">
+    <table class="table-modern">
+        <thead>
+            <tr>
+                <th style="width: 80px;">DAKİKA</th>
+                <th>MAÇ</th>
+                <th>OLAY TİPİ</th>
+                <th>OYUNCU</th>
+                <th>DETAY</th>
+                <th class="text-center">TAKIM</th>
+                <th class="text-center">İŞLEMLER</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><span class="minute-badge">@item.Minute'</span></td>
+                        <td class="td-match-id">#@item.MatchId</td>
+                        <td>
+                            @if (item.Type == "Goal" || item.Type == "0")
+                            {
+                                <span class="badge-event goal"><i class="fas fa-futbol"></i> GOL</span>
+                            }
+                            else if (item.Type == "YellowCard" || item.Type == "1")
+                            {
+                                <span class="badge-event yellow"><i class="fas fa-square"></i> SARI KART</span>
+                            }
+                            else if (item.Type == "RedCard" || item.Type == "2")
+                            {
+                                <span class="badge-event red"><i class="fas fa-square"></i> KIRMIZI KART</span>
+                            }
+                            else if (item.Type == "Substitution" || item.Type == "3")
+                            {
+                                <span class="badge-event substitution"><i class="fas fa-exchange-alt"></i> DEĞİŞİKLİK</span>
+                            }
+                            else
+                            {
+                                <span class="badge-event other">@item.Type</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="player-info">
+                                <span class="p-name">@item.PlayerName</span>
+                                @if (!string.IsNullOrEmpty(item.PlayerIn))
+                                {
+                                    <span class="sub-info text-success">↑ @item.PlayerIn</span>
+                                }
+                                @if (!string.IsNullOrEmpty(item.PlayerOut))
+                                {
+                                    <span class="sub-info text-danger">↓ @item.PlayerOut</span>
+                                }
+                            </div>
+                        </td>
+                        <td><span class="event-detail-text">@item.EventDetail</span></td>
+                        <td class="text-center">
+                            <div class="team-indicator">
+                                <span class="team-dot @(item.IsHomeTeam ? "home" : "away")"></span>
+                                <small>@(item.IsHomeTeam ? "Ev Sahibi" : "Deplasman")</small>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a href="/AdminMatchEvent/UpdateMatchEvent/@item.MatchEventId" class="btn-st-action edit" title="Düzenle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="/AdminMatchEvent/DeleteMatchEvent/@item.MatchEventId" class="btn-st-action delete" title="Sil" onclick="return confirm('Silinsin mi?')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    @* Sayfalama Alanı Düzeltildi *@
+    <div class="pagination-wrapper">
+        <div class="pagination-info">
+            Toplam <strong>@ViewBag.TotalPages</strong> sayfadan <strong>@ViewBag.CurrentPage</strong>. sayfa gösteriliyor.
+        </div>
+        <div class="pagination-list-modern">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="/AdminMatchEvent/Index?page=@i" class="page-item-link @(ViewBag.CurrentPage == i ? "active" : "")">@i</a>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Başlık ve Butonlar */
+    .page-header-modern {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding: 0 5px;
+    }
+
+    .main-title {
+        color: #1a7a3f;
+        font-weight: 800;
+        margin: 0;
+        font-size: 1.4rem;
+        border-left: 5px solid #1a7a3f;
+        padding-left: 15px;
+    }
+
+    .sub-title {
+        color: #888;
+        font-size: 0.85rem;
+        margin: 5px 0 0 20px;
+    }
+
+    .btn-create-new-link {
+        color: #1a7a3f;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.9rem;
+        border: 2px solid #1a7a3f;
+        padding: 8px 15px;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+        .btn-create-new-link:hover {
+            background: #1a7a3f;
+            color: white;
+        }
+
+    /* Tablo ve Kart */
+    .card-table-container {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    }
+
+    .table-modern {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table-modern th {
+            color: #b5b5c3;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 15px;
+            border-bottom: 1px solid #f3f6f9;
+            text-align: left;
+        }
+
+        .table-modern td {
+            padding: 15px;
+            border-bottom: 1px solid #f3f6f9;
+            vertical-align: middle;
+        }
+
+    /* Olay Rozetleri */
+    .badge-event {
+        padding: 5px 12px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 0.7rem;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .badge-event.goal {
+            background: #e8fff3;
+            color: #1a7a3f;
+        }
+
+        .badge-event.yellow {
+            background: #fff8dd;
+            color: #ffc107;
+        }
+
+        .badge-event.red {
+            background: #fff5f8;
+            color: #f1416c;
+        }
+
+        .badge-event.substitution {
+            background: #f8f5ff;
+            color: #7239ea;
+        }
+
+        .badge-event.other {
+            background: #f4f6fa;
+            color: #7e8299;
+        }
+
+    .minute-badge {
+        background: #f8f9fb;
+        border: 1px solid #e1e3ea;
+        padding: 4px 10px;
+        border-radius: 50px;
+        font-weight: 800;
+        color: #1a7a3f;
+    }
+
+    .event-detail-text {
+        font-size: 0.8rem;
+        color: #7e8299;
+        font-style: italic;
+    }
+
+    /* İşlem Butonları */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-st-action {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+        text-decoration: none;
+    }
+
+        .btn-st-action.edit {
+            background: #f1faff;
+            color: #009ef7;
+        }
+
+        .btn-st-action.delete {
+            background: #fff5f8;
+            color: #f1416c;
+        }
+
+        .btn-st-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+    /* SAYFALAMA TASARIMI (DÜZELTİLDİ) */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 25px;
+        padding-top: 15px;
+        border-top: 1px solid #f3f6f9;
+    }
+
+    .pagination-info {
+        font-size: 0.85rem;
+        color: #b5b5c3;
+    }
+
+    .pagination-list-modern {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .page-item-link {
+        min-width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #5e6278;
+        background: #f5f8fa;
+        transition: 0.3s;
+        padding: 0 10px;
+    }
+
+        .page-item-link.active {
+            background: #1a7a3f;
+            color: white;
+        }
+
+        .page-item-link:hover:not(.active) {
+            background: #e1e3ea;
+            color: #181c32;
+        }
+
+    /* Takım Göstergesi */
+    .team-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .team-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+        .team-dot.home {
+            background: #1a7a3f;
+            box-shadow: 0 0 0 4px rgba(26,122,63,0.1);
+        }
+
+        .team-dot.away {
+            background: #f1416c;
+            box-shadow: 0 0 0 4px rgba(241,65,108,0.1);
+        }
+</style>

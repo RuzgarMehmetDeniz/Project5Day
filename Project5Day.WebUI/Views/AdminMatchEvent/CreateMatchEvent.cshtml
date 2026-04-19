@@ -1,0 +1,148 @@
+﻿@model Project5Day.WebUI.Dtos.MatchEventDtos.CreateMatchEventDto
+
+@{
+    ViewData["Title"] = "Yeni Olay Ekle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header-modern">
+    <div class="header-title-box">
+        <h3 class="main-title">YENİ MAÇ OLAYI</h3>
+        <p class="sub-title">Maç içindeki kritik bir anı sisteme kaydedin.</p>
+    </div>
+</div>
+
+<div class="card-form-container">
+    <form method="post">
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label>BAĞLI MAÇ (ID)</label>
+                <input type="number" asp-for="MatchId" class="form-input" placeholder="Maç ID giriniz..." required />
+            </div>
+
+            <div class="form-group">
+                <label>DAKİKA</label>
+                <input type="number" asp-for="Minute" class="form-input" placeholder="Örn: 45" required />
+            </div>
+
+            <div class="form-group">
+                <label>OLAY TİPİ</label>
+                <select asp-for="Type" class="form-input select-custom">
+                    <option value="0">Gol</option>
+                    <option value="1">Sarı Kart</option>
+                    <option value="2">Kırmızı Kart</option>
+                    <option value="3">Oyuncu Değişikliği</option>
+                    <option value="4">VAR Kararı</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>TAKIM</label>
+                <select asp-for="IsHomeTeam" class="form-input select-custom">
+                    <option value="true">Ev Sahibi</option>
+                    <option value="false">Deplasman</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>OYUNCU ADI</label>
+                <input type="text" asp-for="PlayerName" class="form-input" placeholder="Ad Soyad" />
+            </div>
+
+            <div class="form-group full-width">
+                <label>OLAY DETAYI</label>
+                <textarea asp-for="EventDetail" class="form-input" rows="2" placeholder="Örn: Ceza sahası dışından sert şut..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>GİREN OYUNCU (↑)</label>
+                <input type="text" asp-for="PlayerIn" class="form-input" placeholder="Giren oyuncu..." />
+            </div>
+
+            <div class="form-group">
+                <label>ÇIKAN OYUNCU (↓)</label>
+                <input type="text" asp-for="PlayerOut" class="form-input" placeholder="Çıkan oyuncu..." />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save-event">Olayı Kaydet</button>
+            <a href="/AdminMatchEvent/Index" class="btn-cancel">Vazgeç</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .card-form-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        max-width: 800px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .full-width {
+        grid-column: span 2;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 800;
+        color: #b5b5c3;
+        font-size: 0.7rem;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 12px;
+        border: 2px solid #f3f6f9;
+        background: #f8f9fb;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+        .form-input:focus {
+            border-color: #1a7a3f;
+            outline: none;
+            background: #fff;
+        }
+
+    .select-custom {
+        cursor: pointer;
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .btn-save-event {
+        background: #1a7a3f;
+        color: white;
+        border: none;
+        padding: 12px 35px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(26,122,63,0.2);
+    }
+
+    .btn-cancel {
+        color: #7e8299;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+</style>

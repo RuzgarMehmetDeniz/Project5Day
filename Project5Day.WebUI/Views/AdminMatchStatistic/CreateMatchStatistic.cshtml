@@ -1,0 +1,100 @@
+﻿@model Project5Day.WebUI.Dtos.MatchStatisticDtos.CreateMatchStatisticDto
+@{
+    ViewData["Title"] = "Yeni İstatistik";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <h3 style="color: #1a7a3f; font-weight: 800;">YENİ MAÇ İSTATİSTİĞİ</h3>
+</div>
+
+<form method="post">
+    <div class="form-container">
+        <div class="full-width">
+            <label>Maç Seçimi (ID)</label>
+            <input type="number" asp-for="MatchId" class="form-control" required />
+        </div>
+
+        <div class="column">
+            <h4 class="home-title">Ev Sahibi</h4>
+            <div class="input-group"><label>Topla Oynama (%)</label><input type="number" asp-for="HomePossession" /></div>
+            <div class="input-group"><label>Toplam Şut</label><input type="number" asp-for="HomeShots" /></div>
+            <div class="input-group"><label>İsabetli Şut</label><input type="number" asp-for="HomeShotsOnTarget" /></div>
+            <div class="input-group"><label>Pas İsabeti (%)</label><input type="number" asp-for="HomePassAccuracy" /></div>
+        </div>
+
+        <div class="column">
+            <h4 class="away-title">Deplasman</h4>
+            <div class="input-group"><label>Topla Oynama (%)</label><input type="number" asp-for="AwayPossession" /></div>
+            <div class="input-group"><label>Toplam Şut</label><input type="number" asp-for="AwayShots" /></div>
+            <div class="input-group"><label>İsabetli Şut</label><input type="number" asp-for="AwayShotsOnTarget" /></div>
+            <div class="input-group"><label>Pas İsabeti (%)</label><input type="number" asp-for="AwayPassAccuracy" /></div>
+        </div>
+    </div>
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn-save">İstatistikleri Kaydet</button>
+        <a href="/AdminMatchStatistic/Index" class="btn-cancel">Geri Dön</a>
+    </div>
+</form>
+
+<style>
+    .form-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .full-width {
+        grid-column: span 2;
+        margin-bottom: 10px;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            color: #5e6278;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e1e3ea;
+            border-radius: 8px;
+        }
+
+    .home-title {
+        color: #1a7a3f;
+        border-bottom: 2px solid #e8fff3;
+    }
+
+    .away-title {
+        color: #f1416c;
+        border-bottom: 2px solid #fff5f8;
+    }
+
+    .btn-save {
+        background: #1a7a3f;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .btn-cancel {
+        text-decoration: none;
+        color: #7e8299;
+        margin-left: 15px;
+        font-weight: 600;
+    }
+</style>

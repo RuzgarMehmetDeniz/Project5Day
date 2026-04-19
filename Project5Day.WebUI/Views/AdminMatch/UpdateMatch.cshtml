@@ -1,0 +1,114 @@
+﻿@model Project5Day.WebUI.Dtos.MatchDtos.UpdateMatchDto
+
+@{
+    ViewData["Title"] = "Maçı Güncelle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header-modern">
+    <div class="header-title-box">
+        <h3 class="main-title" style="color: #009ef7; border-color: #009ef7;">MAÇ GÜNCELLE / SKOR GİRİŞİ</h3>
+        <p class="sub-title">Maç bilgilerini veya canlı skorları güncelleyin.</p>
+    </div>
+</div>
+
+<div class="card-form-container" style="border-top: 5px solid #009ef7;">
+    <form method="post">
+        <input type="hidden" asp-for="MatchId" />
+        <input type="hidden" asp-for="HomeTeamId" />
+        <input type="hidden" asp-for="AwayTeamId" />
+        <input type="hidden" asp-for="StadiumId" />
+
+        <div class="score-section-title">SKOR BİLGİLERİ</div>
+        <div class="form-grid score-grid">
+            <div class="form-group">
+                <label>İLK YARI SKORU</label>
+                <input type="text" asp-for="FirstHalfScore" class="form-input score-input" placeholder="0 - 0" />
+            </div>
+            <div class="form-group">
+                <label>İKİNCİ YARI SKORU</label>
+                <input type="text" asp-for="SecondHalfScore" class="form-input score-input" placeholder="0 - 0" />
+            </div>
+            <div class="form-group full-width">
+                <label>MAÇ SONUCU (FİNAL)</label>
+                <input type="text" asp-for="FinalScore" class="form-input score-input final" placeholder="0 - 0" />
+            </div>
+        </div>
+
+        <hr class="form-divider" />
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>MAÇ DURUMU</label>
+                <select asp-for="MatchStatus" class="form-input">
+                    <option value="Bekliyor">Bekliyor</option>
+                    <option value="Oynanıyor">Oynanıyor</option>
+                    <option value="Bitti">Bitti</option>
+                    <option value="Ertelendi">Ertelendi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>HAKEM</label>
+                <input type="text" asp-for="RefereeName" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label>TARİH</label>
+                <input type="date" asp-for="MatchDate" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label>SAAT</label>
+                <input type="text" asp-for="MatchTime" class="form-input" />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save-match" style="background: #009ef7;">Bilgileri Güncelle</button>
+            <a href="/AdminMatch/Index" class="btn-cancel">Geri Dön</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .score-section-title {
+        font-weight: 900;
+        color: #181c32;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .score-section-title::after {
+            content: "";
+            height: 1px;
+            background: #eff2f5;
+            flex: 1;
+        }
+
+    .score-grid {
+        background: #f1faff;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .score-input {
+        text-align: center;
+        font-family: monospace;
+        font-size: 1.2rem;
+    }
+
+        .score-input.final {
+            border-color: #009ef7;
+            background: #fff;
+            color: #009ef7;
+        }
+
+    .form-divider {
+        border: 0;
+        border-top: 1px solid #eff2f5;
+        margin: 25px 0;
+    }
+    /* Diğer stiller Create sayfasıyla ortak */
+</style>

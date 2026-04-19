@@ -1,0 +1,231 @@
+﻿@model Project5Day.WebUI.Dtos.MatchStatisticDtos.UpdateMatchStatisticDto
+
+@{
+    ViewData["Title"] = "İstatistik Güncelle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header" style="margin-bottom: 2rem;">
+    <div style="border-left: 4px solid #009ef7; padding-left: 12px;">
+        <h3 style="color: #009ef7; font-weight: 800; margin: 0; text-transform: uppercase;">İSTATİSTİK GÜNCELLE</h3>
+        <p style="color: #777; font-size: 0.85rem; margin: 0;">Kayıt ID: #@Model.MatchStatisticId | Bağlı Maç ID: #@Model.MatchId</p>
+    </div>
+</div>
+
+<form asp-action="UpdateMatchStatistic" method="post">
+    @* API'nin hangi kaydı güncelleyeceğini bilmesi için ID'yi gizli gönderiyoruz *@
+    <input type="hidden" asp-for="MatchStatisticId" />
+    <input type="hidden" asp-for="MatchId" />
+
+    <div class="form-grid-modern">
+        <div class="stat-card home-border">
+            <div class="stat-card-header">
+                <i class="fas fa-home"></i> EV SAHİBİ PERFORMANSI
+            </div>
+            <div class="stat-card-body">
+                <div class="input-modern">
+                    <label>Topla Oynama (%)</label>
+                    <input type="number" asp-for="HomePossession" min="0" max="100" />
+                </div>
+                <div class="input-row">
+                    <div class="input-modern">
+                        <label>Toplam Şut</label>
+                        <input type="number" asp-for="HomeShots" />
+                    </div>
+                    <div class="input-modern">
+                        <label>İsabetli Şut</label>
+                        <input type="number" asp-for="HomeShotsOnTarget" />
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-modern">
+                        <label>Pas Sayısı</label>
+                        <input type="number" asp-for="HomePasses" />
+                    </div>
+                    <div class="input-modern">
+                        <label>Pas İsabeti (%)</label>
+                        <input type="number" asp-for="HomePassAccuracy" />
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-modern">
+                        <label>Korner</label>
+                        <input type="number" asp-for="HomeCorners" />
+                    </div>
+                    <div class="input-modern">
+                        <label>Faul / Ofsayt</label>
+                        <div style="display: flex; gap: 5px;">
+                            <input type="number" asp-for="HomeFouls" placeholder="Faul" />
+                            <input type="number" asp-for="HomeOffsides" placeholder="Ofs" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-card away-border">
+            <div class="stat-card-header">
+                <i class="fas fa-bus"></i> DEPLASMAN PERFORMANSI
+            </div>
+            <div class="stat-card-body">
+                <div class="input-modern">
+                    <label>Topla Oynama (%)</label>
+                    <input type="number" asp-for="AwayPossession" min="0" max="100" />
+                </div>
+                <div class="input-row">
+                    <div class="input-modern">
+                        <label>Toplam Şut</label>
+                        <input type="number" asp-for="AwayShots" />
+                    </div>
+                    <div class="input-modern">
+                        <label>İsabetli Şut</label>
+                        <input type="number" asp-for="AwayShotsOnTarget" />
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-modern">
+                        <label>Pas Sayısı</label>
+                        <input type="number" asp-for="AwayPasses" />
+                    </div>
+                    <div class="input-modern">
+                        <label>Pas İsabeti (%)</label>
+                        <input type="number" asp-for="AwayPassAccuracy" />
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-modern">
+                        <label>Korner</label>
+                        <input type="number" asp-for="AwayCorners" />
+                    </div>
+                    <div class="input-modern">
+                        <label>Faul / Ofsayt</label>
+                        <div style="display: flex; gap: 5px;">
+                            <input type="number" asp-for="AwayFouls" placeholder="Faul" />
+                            <input type="number" asp-for="AwayOffsides" placeholder="Ofs" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-footer-actions">
+        <button type="submit" class="btn-update-modern">
+            <i class="fas fa-sync-alt"></i> Değişiklikleri Kaydet
+        </button>
+        <a href="/AdminMatchStatistic/Index" class="btn-back-link">Listeye Geri Dön</a>
+    </div>
+</form>
+
+<style>
+    .form-grid-modern {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .home-border {
+        border-top: 5px solid #1a7a3f;
+    }
+
+    .away-border {
+        border-top: 5px solid #f1416c;
+    }
+
+    .stat-card-header {
+        padding: 1.2rem;
+        background: #f8f9fb;
+        font-weight: 800;
+        font-size: 0.9rem;
+        color: #3f4254;
+        border-bottom: 1px solid #eff2f5;
+    }
+
+    .stat-card-body {
+        padding: 1.5rem;
+    }
+
+    .input-modern {
+        margin-bottom: 1.2rem;
+        flex: 1;
+    }
+
+        .input-modern label {
+            display: block;
+            font-weight: 700;
+            color: #b5b5c3;
+            font-size: 0.7rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .input-modern input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 2px solid #f3f6f9;
+            background: #f8f9fb;
+            font-weight: 700;
+            color: #181c32;
+            transition: 0.3s;
+        }
+
+            .input-modern input:focus {
+                border-color: #009ef7;
+                background: white;
+                outline: none;
+            }
+
+    .input-row {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .form-footer-actions {
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .btn-update-modern {
+        background: #009ef7;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(0,158,247,0.2);
+    }
+
+        .btn-update-modern:hover {
+            background: #0086d1;
+            transform: translateY(-2px);
+        }
+
+    .btn-back-link {
+        color: #7e8299;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+        .btn-back-link:hover {
+            color: #181c32;
+        }
+
+    @@media (max-width: 992px) {
+        .form-grid-modern {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

@@ -1,0 +1,141 @@
+﻿@model Project5Day.WebUI.Dtos.MatchDtos.CreateMatchDto
+
+@{
+    ViewData["Title"] = "Yeni Maç Planla";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-header-modern">
+    <div class="header-title-box">
+        <h3 class="main-title">YENİ MAÇ PLANI</h3>
+        <p class="sub-title">Fikstüre yeni bir karşılaşma ekleyin.</p>
+    </div>
+</div>
+
+<div class="card-form-container">
+    <form method="post">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>EV SAHİBİ TAKIM (ID)</label>
+                <input type="number" asp-for="HomeTeamId" class="form-input" placeholder="Ev Sahibi ID" required />
+            </div>
+
+            <div class="form-group">
+                <label>DEPLASMAN TAKIM (ID)</label>
+                <input type="number" asp-for="AwayTeamId" class="form-input" placeholder="Deplasman ID" required />
+            </div>
+
+            <div class="form-group">
+                <label>TARİH</label>
+                <input type="date" asp-for="MatchDate" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label>SAAT</label>
+                <input type="text" asp-for="MatchTime" class="form-input" placeholder="Örn: 20:00" />
+            </div>
+
+            <div class="form-group">
+                <label>HAFTA</label>
+                <input type="number" asp-for="WeekNumber" class="form-input" placeholder="Lig Haftası" />
+            </div>
+
+            <div class="form-group">
+                <label>STADYUM (ID)</label>
+                <input type="number" asp-for="StadiumId" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+                <label>HAKEM</label>
+                <input type="text" asp-for="RefereeName" class="form-input" placeholder="Hakem Adı" />
+            </div>
+
+            <div class="form-group">
+                <label>SEYİRCİ SAYISI</label>
+                <input type="number" asp-for="SpectatorCount" class="form-input" />
+            </div>
+
+            <div class="form-group full-width">
+                <label>MAÇ DURUMU</label>
+                <select asp-for="MatchStatus" class="form-input">
+                    <option value="Bekliyor">Bekliyor</option>
+                    <option value="Oynanıyor">Oynanıyor</option>
+                    <option value="Bitti">Bitti</option>
+                    <option value="Ertelendi">Ertelendi</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save-match">Maçı Kaydet</button>
+            <a href="/AdminMatch/Index" class="btn-cancel">İptal Et</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .card-form-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        max-width: 900px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .full-width {
+        grid-column: span 2;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 800;
+        color: #b5b5c3;
+        font-size: 0.7rem;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: 2px solid #f3f6f9;
+        background: #f8f9fb;
+        font-weight: 600;
+    }
+
+        .form-input:focus {
+            border-color: #1a7a3f;
+            outline: none;
+            background: #fff;
+        }
+
+    .form-actions {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .btn-save-match {
+        background: #1a7a3f;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .btn-cancel {
+        color: #7e8299;
+        text-decoration: none;
+        font-weight: 700;
+    }
+</style>
