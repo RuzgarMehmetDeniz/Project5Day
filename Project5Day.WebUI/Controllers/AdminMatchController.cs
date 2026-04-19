@@ -17,6 +17,7 @@ namespace Project5Day.WebUI.Controllers
 
         public async Task<IActionResult> Index(int page = 1)
         {
+            ViewBag.Title = "Maçlar";
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync(_apiUrl);
             if (responseMessage.IsSuccessStatusCode)

@@ -2,19 +2,28 @@ using Project5Day.WebApi.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApiContext>();
 // Add services to the container.
+builder.Services.AddDbContext<ApiContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Hata yönetimi yapýlandýrmasý
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // Genel uygulama hatalarý (500 vb.) için yönlendirme
+    app.UseExceptionHandler("/Error/Index");
     app.UseHsts();
 }
+else
+{
+    // Geliþtirme modunda da hata sayfasýný test etmek istersen üstteki satýrý buraya da alabilirsin
+    app.UseExceptionHandler("/Error/Index");
+}
+
+// 404 Sayfa Bulunamadý gibi durum kodlarý için yönlendirme
+app.UseStatusCodePagesWithReExecute("/Error/Index/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -25,6 +34,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Match}/{action=Index}/{id?}"); // Ana sayfa isteðine uygun olarak Match/Index yapýldý
 
 app.Run();

@@ -6,10 +6,12 @@ namespace Project5Day.WebUI.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Title = "Index";
             return View();
         }
         public IActionResult Dashboard()
         {
+            ViewBag.Title = "Dashboard";
             return View();
         }
     }

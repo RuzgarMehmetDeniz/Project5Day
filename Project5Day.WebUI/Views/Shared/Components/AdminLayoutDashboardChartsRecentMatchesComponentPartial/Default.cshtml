@@ -1,0 +1,77 @@
+﻿@using Project5Day.WebApi.Entities
+@model List<Match>
+
+<div class="grid-3-1">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Haftalık Gol İstatistikleri</div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container" style="height: 200px;">
+                <canvas id="goalChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Son Maçlar</div>
+            <button class="btn btn-outline btn-sm" onclick="showPage('fixtures')">Tümü</button>
+        </div>
+        <div class="card-body">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="match-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            @* Takım Badge *@
+                            <div style="background:#e8f5ed; padding: 4px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; width: 28px; text-align: center;">
+                                @(item.HomeTeam?.Name?.Substring(0, Math.Min(2, item.HomeTeam.Name.Length)).ToUpper() ?? "??")
+                            </div>
+                            @* Takım İsimleri *@
+                            <div style="font-size: 0.85rem; font-weight: 500;">
+                                @(item.HomeTeam?.Name ?? "Bilinmiyor") vs @(item.AwayTeam?.Name ?? "Bilinmiyor")
+                            </div>
+                        </div>
+
+                        @* Skor *@
+                        <div style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85rem;">
+                            @(string.IsNullOrEmpty(item.FinalScore) ? "0-0" : item.FinalScore)
+                        </div>
+
+                        @* Durum *@
+                        <div style="text-align: right;">
+                            <span style="color: #166534; background: #dcfce7; font-size: 0.65rem; padding: 2px 5px; border-radius: 3px; font-weight: bold;">BİTTİ</span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="text-align: center; color: #999; padding: 20px;">Veritabanında uygun maç bulunamadı.</p>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const ctx = document.getElementById('goalChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(ViewBag.ChartLabels)),
+                    datasets: [{
+                        label: 'Gol',
+                        data: @Html.Raw(Json.Serialize(ViewBag.ChartData)),
+                        backgroundColor: '#1a7a3f',
+                        borderRadius: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+    })();
+</script>

@@ -1,12 +1,11 @@
 ﻿<div class="grid-2">
-    <!-- Standings -->
     <div class="card">
         <div class="card-header">
             <div>
                 <div class="card-title">Puan Durumu</div>
                 <div class="card-subtitle">2024/25 Sezonu</div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="showPage('standings')">Tümü</button>
+            <button class="btn btn-outline btn-sm">Tümü</button>
         </div>
         <div class="card-body" style="padding: 0 0 4px;">
             <table class="standings-table">
@@ -19,92 +18,61 @@
                         <th class="center">B</th>
                         <th class="center">M</th>
                         <th class="center">Puan</th>
-                        <th>Form</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><span class="team-rank top">1</span></td>
-                        <td><div class="table-cell-flex"><div class="table-avatar" style="background:#e8f5ed;color:#065f2a">GS</div>Galatasaray</div></td>
-                        <td class="center">28</td>
-                        <td class="center">19</td>
-                        <td class="center">5</td>
-                        <td class="center">4</td>
-                        <td class="center"><span class="pts-badge">62</span></td>
-                        <td><div class="form-dots"><div class="dot w"></div><div class="dot w"></div><div class="dot w"></div><div class="dot d"></div><div class="dot w"></div></div></td>
-                    </tr>
-                    <tr>
-                        <td><span class="team-rank top">2</span></td>
-                        <td><div class="table-cell-flex"><div class="table-avatar" style="background:#fef2f2;color:#991b1b">FB</div>Fenerbahçe</div></td>
-                        <td class="center">28</td>
-                        <td class="center">18</td>
-                        <td class="center">5</td>
-                        <td class="center">5</td>
-                        <td class="center"><span class="pts-badge">59</span></td>
-                        <td><div class="form-dots"><div class="dot w"></div><div class="dot d"></div><div class="dot w"></div><div class="dot w"></div><div class="dot d"></div></div></td>
-                    </tr>
-                    <tr>
-                        <td><span class="team-rank">3</span></td>
-                        <td><div class="table-cell-flex"><div class="table-avatar" style="background:#f0ecfd;color:#5b21b6">BJK</div>Beşiktaş</div></td>
-                        <td class="center">28</td>
-                        <td class="center">14</td>
-                        <td class="center">6</td>
-                        <td class="center">8</td>
-                        <td class="center"><span class="pts-badge" style="color:#7c3aed">48</span></td>
-                        <td><div class="form-dots"><div class="dot l"></div><div class="dot w"></div><div class="dot w"></div><div class="dot l"></div><div class="dot w"></div></div></td>
-                    </tr>
-                    <tr>
-                        <td><span class="team-rank">4</span></td>
-                        <td><div class="table-cell-flex"><div class="table-avatar" style="background:#fffbeb;color:#92400e">TS</div>Trabzonspor</div></td>
-                        <td class="center">28</td>
-                        <td class="center">13</td>
-                        <td class="center">7</td>
-                        <td class="center">8</td>
-                        <td class="center"><span class="pts-badge" style="color:#d97706">46</span></td>
-                        <td><div class="form-dots"><div class="dot w"></div><div class="dot l"></div><div class="dot d"></div><div class="dot w"></div><div class="dot d"></div></div></td>
-                    </tr>
+                    @{
+                        int rank = 1;
+                    }
+                    @foreach (var item in ViewBag.Standings)
+                    {
+                        <tr>
+                            <td><span class="team-rank @(rank <= 2 ? "top" : "")">@rank</span></td>
+                            <td>
+                                <div class="table-cell-flex">
+                                    <div class="table-avatar" style="background:#e8f5ed;color:#065f2a">
+                                        @item.Team.Name.Substring(0, 2).ToUpper()
+                                    </div>
+                                    @item.Team.Name
+                                </div>
+                            </td>
+                            <td class="center">@item.O</td>
+                            <td class="center">@item.G</td>
+                            <td class="center">@item.B</td>
+                            <td class="center">@item.M</td>
+                            <td class="center"><span class="pts-badge">@item.Puan</span></td>
+                        </tr>
+                        rank++;
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Top Scorers -->
     <div class="card">
         <div class="card-header">
             <div class="card-title">En Çok Gol Atanlar</div>
             <span class="card-badge">Top 5</span>
         </div>
         <div class="card-body" style="padding-top: 8px;">
-            <div class="scorer-item">
-                <div class="scorer-rank gold">1</div>
-                <div class="scorer-avatar" style="background:#e8f5ed;color:#065f2a">MO</div>
-                <div class="scorer-info"><div class="scorer-name">Mauro Osorio</div><div class="scorer-team">Galatasaray</div></div>
-                <div class="scorer-goals">22</div>
-            </div>
-            <div class="scorer-item">
-                <div class="scorer-rank gold" style="color:#9ca3af">2</div>
-                <div class="scorer-avatar" style="background:#fef2f2;color:#991b1b">EJ</div>
-                <div class="scorer-info"><div class="scorer-name">Edin Džeko</div><div class="scorer-team">Fenerbahçe</div></div>
-                <div class="scorer-goals">19</div>
-            </div>
-            <div class="scorer-item">
-                <div class="scorer-rank">3</div>
-                <div class="scorer-avatar" style="background:#fffbeb;color:#92400e">PV</div>
-                <div class="scorer-info"><div class="scorer-name">Pepe Velasquez</div><div class="scorer-team">Trabzonspor</div></div>
-                <div class="scorer-goals">16</div>
-            </div>
-            <div class="scorer-item">
-                <div class="scorer-rank">4</div>
-                <div class="scorer-avatar" style="background:#eff6ff;color:#1e40af">KH</div>
-                <div class="scorer-info"><div class="scorer-name">Kemal Hüseyin</div><div class="scorer-team">Beşiktaş</div></div>
-                <div class="scorer-goals">14</div>
-            </div>
-            <div class="scorer-item">
-                <div class="scorer-rank">5</div>
-                <div class="scorer-avatar" style="background:#f0ecfd;color:#5b21b6">RB</div>
-                <div class="scorer-info"><div class="scorer-name">Remo Balaci</div><div class="scorer-team">Galatasaray</div></div>
-                <div class="scorer-goals">13</div>
-            </div>
+            @{
+                int sRank = 1;
+            }
+            @foreach (var scorer in ViewBag.TopScorers)
+            {
+                <div class="scorer-item">
+                    <div class="scorer-rank @(sRank <= 1 ? "gold" : "")">@sRank</div>
+                    <div class="scorer-avatar" style="background:#f0ecfd;color:#5b21b6">
+                        @scorer.PlayerName.Substring(0, 2).ToUpper()
+                    </div>
+                    <div class="scorer-info">
+                        <div class="scorer-name">@scorer.PlayerName</div>
+                        <div class="scorer-team">@scorer.TeamName</div>
+                    </div>
+                    <div class="scorer-goals">@scorer.GoalCount</div>
+                </div>
+                sRank++;
+            }
         </div>
     </div>
 </div>
